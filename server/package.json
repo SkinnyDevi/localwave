@@ -1,0 +1,35 @@
+{
+  "name": "localwave-server",
+  "version": "1.0.0",
+  "description": "Server for Local Wave.",
+  "main": "server.js",
+  "scripts": {
+    "build": "rimraf dist && npx tsc",
+    "prestart": "npm run build",
+    "start": "node dist/server.js",
+    "preserve": "npm run build",
+    "serve": "concurrently \"npx tsc -w\" \"nodemon dist/server.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkinnyDevi/localwave.git"
+  },
+  "author": "SkinnyDevi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SkinnyDevi/localwave/issues"
+  },
+  "homepage": "https://github.com/SkinnyDevi/localwave#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "rimraf": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.14.0",
+    "concurrently": "^7.6.0",
+    "typescript": "^4.9.5"
+  },
+  "type": "module"
+}
