@@ -1,4 +1,4 @@
-import { Server, Socket, Namespace } from "socket.io";
+import { Server, Socket } from "socket.io";
 import { Server as HttpServer } from "http";
 
 const WEBSOCKET_CORS = {

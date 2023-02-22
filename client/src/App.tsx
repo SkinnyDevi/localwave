@@ -1,14 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
+import { v4 as uuid } from "uuid";
+import io, { Socket } from "socket.io-client";
 
 import logo from "./logo.svg";
 import "./App.css";
 
-const socket = io("http://localhost:3500/users");
+const socket = io("http://localhost:3500/users", { autoConnect: false });
 
 function App() {
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [isConnected, setIsConnected] = useState(false);
+  const [myUUID, setMyUUID] = useState<string | null>(null);
   const [lastPong, setLastPong] = useState<string | null>(null);
 
   useEffect(() => {
@@ -22,7 +24,10 @@ function App() {
   useEffect(() => {
     socket.on("connect", () => {
       setIsConnected(true);
-      socket.emit("ping");
+
+      const myUuid = uuid();
+      socket.emit("register", { uuid: myUuid });
+      setMyUUID(myUuid);
     });
 
     socket.on("pong", () => {
@@ -36,12 +41,6 @@ function App() {
     socket.on("other", (ctx) => {
       console.log(ctx);
     });
-
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.off("pong");
-    };
   }, []);
 
   const sendPing = () => {
@@ -55,14 +54,38 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="#"
-          onClick={sendPing}
-          rel="noopener noreferrer"
-        >
-          Ping
-        </a>
+        {!isConnected ? (
+          <a
+            className="App-link"
+            href="#"
+            onClick={() => socket.connect()}
+            rel="noopener noreferrer"
+          >
+            Connect
+          </a>
+        ) : (
+          <>
+            <a
+              className="App-link"
+              href="#"
+              onClick={sendPing}
+              rel="noopener noreferrer"
+            >
+              Ping
+            </a>
+            <a className="App-link" href="#" rel="noopener noreferrer">
+              My UUID: {myUUID}
+            </a>
+            <a
+              className="App-link"
+              href="#"
+              onClick={() => socket.disconnect()}
+              rel="noopener noreferrer"
+            >
+              Disconnect
+            </a>
+          </>
+        )}
       </header>
       <button onClick={sendPing}>Send ping</button>
     </div>
