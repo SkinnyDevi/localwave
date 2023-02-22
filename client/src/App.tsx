@@ -1,17 +1,33 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
-import io, { Socket } from "socket.io-client";
+import io from "socket.io-client";
 
 import logo from "./logo.svg";
 import "./App.css";
+import UserData from "./interfaces/UserData";
 
 const socket = io("http://localhost:3500/users", { autoConnect: false });
 
 function App() {
   const [isConnected, setIsConnected] = useState(false);
-  const [myUUID, setMyUUID] = useState<string | null>(null);
+
+  const [myProfile, setMyProfile] = useState<UserData | null>(null);
+
   const [lastPong, setLastPong] = useState<string | null>(null);
+
+  const checkList = () => {
+    let wasConnected = socket.connected;
+
+    if (!wasConnected) socket.connect();
+    socket.emit("list");
+    if (!wasConnected) socket.disconnect();
+  };
+
+  const disconnect = () => {
+    socket.emit("remove-user", myProfile);
+    socket.disconnect();
+  };
 
   useEffect(() => {
     console.log("Connected: ", isConnected);
@@ -26,8 +42,11 @@ function App() {
       setIsConnected(true);
 
       const myUuid = uuid();
-      socket.emit("register", { uuid: myUuid });
-      setMyUUID(myUuid);
+      socket.emit("register", { UUID: myUuid });
+    });
+
+    socket.on("register-complete", (data: UserData) => {
+      setMyProfile(data);
     });
 
     socket.on("pong", () => {
@@ -36,6 +55,7 @@ function App() {
 
     socket.on("disconnect", () => {
       setIsConnected(false);
+      setMyProfile(null);
     });
 
     socket.on("other", (ctx) => {
@@ -54,7 +74,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        {!isConnected ? (
+        {!isConnected && !myProfile ? (
           <a
             className="App-link"
             href="#"
@@ -74,18 +94,29 @@ function App() {
               Ping
             </a>
             <a className="App-link" href="#" rel="noopener noreferrer">
-              My UUID: {myUUID}
+              My Name: {myProfile?.name}
+            </a>
+            <a className="App-link" href="#" rel="noopener noreferrer">
+              My UUID: {myProfile?.UUID}
             </a>
             <a
               className="App-link"
               href="#"
-              onClick={() => socket.disconnect()}
+              onClick={disconnect}
               rel="noopener noreferrer"
             >
               Disconnect
             </a>
           </>
         )}
+        <a
+          className="App-link"
+          href="#"
+          onClick={checkList}
+          rel="noopener noreferrer"
+        >
+          Check User List
+        </a>
       </header>
       <button onClick={sendPing}>Send ping</button>
     </div>

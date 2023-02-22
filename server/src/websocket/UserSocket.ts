@@ -11,7 +11,7 @@ import UserData from "../interfaces/UserData.js";
 
 class UserSocket implements StandardSocket {
   private socket: Socket;
-  private users: UserData;
+  private users: UserData[] = [];
   private nameGeneratorConfig: Config = {
     dictionaries: [languages, names],
     separator: "_",
@@ -20,20 +20,34 @@ class UserSocket implements StandardSocket {
   registerHandlers(socket: Socket) {
     this.socket = socket;
 
-    this.handleConnection();
     this.handlePing();
     this.handleRegister();
+    this.handleRemoveUser();
+    this.handleUserList();
   }
 
   handleConnection() {
-    this.socket.on("connect", () => {
-      console.log("USER CONNECTED");
+    throw new Error("Method not implemented.");
+  }
+
+  handleUserList() {
+    this.socket.on("list", () => {
+      this.users.forEach((u) => console.log(u));
+    });
+  }
+
+  handleRemoveUser() {
+    this.socket.on("remove-user", (profile: UserData) => {
+      this.users.splice(this.users.indexOf(profile));
     });
   }
 
   handleRegister() {
     this.socket.on("register", (userData: UserData) => {
-      console.log("New user: " + userData.UUID);
+      userData.name = this.generateName();
+
+      this.users.push(userData);
+      this.socket.emit("register-complete", userData);
     });
   }
 
