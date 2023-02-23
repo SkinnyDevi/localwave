@@ -5,6 +5,7 @@ import {
   languages,
   names,
 } from "unique-names-generator";
+import { v4 as uuid } from "uuid";
 
 import StandardSocket from "../interfaces/StandardSocket.js";
 import UserData from "../interfaces/UserData.js";
@@ -17,33 +18,37 @@ class UserSocket implements StandardSocket {
     separator: "_",
   };
 
-  registerHandlers(socket: Socket) {
-    this.socket = socket;
+  handleConnection(userSocket: Socket, clientList: UserData[]) {
+    this.socket = userSocket;
+    this.users = clientList;
 
-    this.handlePing();
-    this.handleRegister();
-    this.handleRemoveUser();
-    this.handleUserList();
-    this.handleListReset();
-    this.handleDisconnection();
+    this.registerUser();
+
+    this.registerHandlers();
   }
 
-  handleDisconnection() {
+  registerHandlers() {
+    this.handlePing();
+    this.handleUserList();
+    this.handleDisconnect();
+  }
+
+  handleDisconnect() {
     this.socket.on("disconnect", () => {
-      console.log("USer disconnected");
+      this.users.forEach((user: UserData) => {
+        if (user.socket.id === this.socket.id) {
+          return this.users.splice(this.users.indexOf(user), 1);
+        }
+      });
+      console.log("[Disconnection] Connected users: ", this.users.length);
     });
   }
 
   handleUserList() {
     this.socket.on("list", () => {
-      this.users.forEach((u) => console.log(u));
-    });
-  }
-
-  handleListReset() {
-    this.socket.on("reset-list", () => {
-      this.users = [];
-      console.log("Deleted users");
+      this.users.forEach((u: UserData) =>
+        console.log({ UUID: u.UUID, name: u.name })
+      );
     });
   }
 
@@ -56,17 +61,13 @@ class UserSocket implements StandardSocket {
     });
   }
 
-  handleRegister() {
-    this.socket.on("register", (userData: UserData) => {
-      if (userData.UUID === null)
-        return this.socket.emit("regfailed", { error: "No UUID specified." });
+  registerUser() {
+    let newUser = this.generateProfile();
+    this.users.push(newUser);
 
-      console.log("Registering user: ", userData.UUID);
-      userData.name = this.generateName();
+    this.socket.emit("regcomplete", { UUID: newUser.UUID, name: newUser.name });
 
-      this.users.push(userData);
-      this.socket.emit("regcomplete", userData);
-    });
+    console.log("[Connection] Connected users: ", this.users.length);
   }
 
   handlePing() {
@@ -75,8 +76,12 @@ class UserSocket implements StandardSocket {
     });
   }
 
-  private generateName(): string {
-    return uniqueNamesGenerator(this.nameGeneratorConfig);
+  private generateProfile(): UserData {
+    return {
+      UUID: uuid(),
+      name: uniqueNamesGenerator(this.nameGeneratorConfig),
+      socket: this.socket,
+    };
   }
 }
 

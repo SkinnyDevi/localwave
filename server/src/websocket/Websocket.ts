@@ -25,8 +25,9 @@ class Websocket extends Server {
 
   public initializeHandlers(socketHandlers: Array<any>) {
     socketHandlers.forEach((element) => {
-      Websocket.io.of(element.path, (socket: Socket) => {
-        element.handler.registerHandlers(socket);
+      let clientList = [];
+      Websocket.io.of(element.path).on("connection", (s: Socket) => {
+        element.handler.handleConnection(s, clientList);
       });
     });
   }
