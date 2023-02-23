@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import io from "socket.io-client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -29,7 +29,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        {!socket.connected && userProfile.name !== null ? (
+        {!isConnected || userProfile.name === null ? (
           <h3>Not connected, please wait...</h3>
         ) : (
           <>
@@ -41,6 +41,7 @@ function App() {
             >
               Ping
             </a>
+
             <a className="App-link" href="#" rel="noopener noreferrer">
               My Name: {userProfile.name}
             </a>
@@ -55,6 +56,7 @@ function App() {
             >
               Disconnect
             </a>
+            <br />
             <a
               className="App-link"
               href="#"

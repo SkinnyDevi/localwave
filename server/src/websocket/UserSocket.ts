@@ -24,10 +24,14 @@ class UserSocket implements StandardSocket {
     this.handleRegister();
     this.handleRemoveUser();
     this.handleUserList();
+    this.handleListReset();
+    this.handleDisconnection();
   }
 
-  handleConnection() {
-    throw new Error("Method not implemented.");
+  handleDisconnection() {
+    this.socket.on("disconnect", () => {
+      console.log("USer disconnected");
+    });
   }
 
   handleUserList() {
@@ -36,10 +40,18 @@ class UserSocket implements StandardSocket {
     });
   }
 
+  handleListReset() {
+    this.socket.on("reset-list", () => {
+      this.users = [];
+      console.log("Deleted users");
+    });
+  }
+
   handleRemoveUser() {
     this.socket.on("remove-user", (profile: UserData) => {
+      console.log("Removing user: ", profile.UUID);
       this.users.splice(this.users.indexOf(profile));
-      console.log("Current user list: \n", this.users);
+
       this.socket.emit("user-removed");
     });
   }

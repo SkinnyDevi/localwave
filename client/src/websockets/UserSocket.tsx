@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { Socket } from "socket.io-client";
 import { v4 as uuid } from "uuid";
@@ -16,18 +17,19 @@ export default function UserSocket({
   socket,
 }: UserSocketProps) {
   const [userProfile, setUserProfile] = userProfileHook;
-  const [isConnected, setIsConnected] = isConnectedHook;
+  const [, setIsConnected] = isConnectedHook;
 
   useEffect(() => {
+    console.log("Hello");
     socket.on("connect", () => {
       setIsConnected(true);
       userProfile.UUID = uuid();
-      console.log(userProfile);
+      console.log("Requesting register...");
       socket.emit("register", userProfile);
     });
 
     socket.on("regfailed", () => {
-      console.log("Failed");
+      console.log("RegFailed");
       setUserProfile({
         UUID: null,
         name: null,
@@ -35,6 +37,7 @@ export default function UserSocket({
     });
 
     socket.on("regcomplete", (data: UserData) => {
+      console.log("RegComplete");
       setUserProfile(data);
     });
 
@@ -42,14 +45,15 @@ export default function UserSocket({
       console.log(new Date().toISOString());
     });
 
-    socket.on("user-removed", () => {
-      setUserProfile({ UUID: null, name: null });
-      socket.disconnect();
-    });
-
     socket.on("disconnect", () => {
       setIsConnected(false);
     });
+
+    window.addEventListener("beforeunload", () => {
+      socket.emit("remove-user", userProfile);
+    });
+
+    return () => window.removeEventListener("beforeunload", () => {});
   }, []);
 
   return <></>;
