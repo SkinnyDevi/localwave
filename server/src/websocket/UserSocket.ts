@@ -39,15 +39,21 @@ class UserSocket implements StandardSocket {
   handleRemoveUser() {
     this.socket.on("remove-user", (profile: UserData) => {
       this.users.splice(this.users.indexOf(profile));
+      console.log("Current user list: \n", this.users);
+      this.socket.emit("user-removed");
     });
   }
 
   handleRegister() {
     this.socket.on("register", (userData: UserData) => {
+      if (userData.UUID === null)
+        return this.socket.emit("regfailed", { error: "No UUID specified." });
+
+      console.log("Registering user: ", userData.UUID);
       userData.name = this.generateName();
 
       this.users.push(userData);
-      this.socket.emit("register-complete", userData);
+      this.socket.emit("regcomplete", userData);
     });
   }
 

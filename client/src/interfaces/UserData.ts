@@ -1,4 +1,4 @@
 export default interface UserData {
-  UUID: string;
-  name?: string;
+  UUID: string | null;
+  name: string | null;
 }

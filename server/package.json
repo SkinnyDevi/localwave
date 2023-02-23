@@ -7,8 +7,8 @@
     "build": "rimraf dist && npx tsc",
     "prestart": "npm run build",
     "start": "node dist/server.js",
-    "preserve": "npm run build",
-    "serve": "concurrently \"npx tsc -w\" \"nodemon dist/server.js\""
+    "predev": "npm run build",
+    "dev": "concurrently \"npx tsc -w\" \"nodemon dist/server.js\""
   },
   "repository": {
     "type": "git",
