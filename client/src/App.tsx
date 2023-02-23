@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import io from "socket.io-client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
