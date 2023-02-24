@@ -1,0 +1,31 @@
+.header {
+	position: absolute;
+	text-align: center;
+	width: 100vw;
+	color: white;
+	font-weight: bold;
+	font-size: 60px;
+	padding-top: 40px;
+}
+
+.userbox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	height: 100vh;
+	
+}
+
+.user {
+	border-radius: 50%;
+	padding: 20px;
+	margin: 10px;
+	background-color: grey;
+	cursor: pointer;
+}
+
+.user>svg {
+	width: 65px;
+	height: 65px;
+}

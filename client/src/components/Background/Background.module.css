@@ -1,0 +1,49 @@
+.background {
+  background-color: #282c34;
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	z-index: -1;
+}
+
+.wifi {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.wifi_background {
+	background-color: black;
+	padding: 30px;
+	border-radius: 50%;
+	animation: wifi_bg 2s ease-out infinite;
+}
+
+.wifi_background>svg{
+	width: 100px;
+	height: 100px;
+}
+
+@keyframes wifi_bg {
+	0% {
+		background-color: rgba(32, 32, 32, 0);
+		padding: 10px;
+	}
+
+	10% {
+		background-color: rgba(32, 32, 32, 1);
+		padding: 20px;
+	}
+	
+	30% {
+		background-color: rgba(32, 32, 32, 0);
+		padding: 30px;
+	}
+
+	100% {
+		background-color: rgba(32, 32, 32, 0);
+		padding: 30px;
+	}
+}
