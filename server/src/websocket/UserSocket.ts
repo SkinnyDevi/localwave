@@ -36,19 +36,16 @@ class UserSocket implements StandardSocket {
   handleDisconnect() {
     this.socket.on("disconnect", () => {
       this.users.forEach((user: UserData) => {
-        if (user.socket.id === this.socket.id) {
+        if (user.socket.id === this.socket.id)
           return this.users.splice(this.users.indexOf(user), 1);
-        }
       });
-      console.log("[Disconnection] Connected users: ", this.users.length);
+      console.log("[-] Connected users: ", this.users.length);
     });
   }
 
   handleUserList() {
     this.socket.on("list", () => {
-      this.users.forEach((u: UserData) =>
-        console.log({ UUID: u.UUID, name: u.name })
-      );
+      this.users.forEach((u: UserData) => console.log(u.UUID, u.name));
     });
   }
 
@@ -65,9 +62,17 @@ class UserSocket implements StandardSocket {
     let newUser = this.generateProfile();
     this.users.push(newUser);
 
-    this.socket.emit("regcomplete", { UUID: newUser.UUID, name: newUser.name });
+    let userList = [];
+    for (let u of this.users) userList.push({ UUID: u.UUID, name: u.name });
 
-    console.log("[Connection] Connected users: ", this.users.length);
+    this.socket.emit("regcomplete", {
+      UUID: newUser.UUID,
+      name: newUser.name,
+      userList: userList,
+    });
+    this.socket.broadcast.emit("user-list", userList);
+
+    console.log("[+] Connected users: ", this.users.length);
   }
 
   handlePing() {

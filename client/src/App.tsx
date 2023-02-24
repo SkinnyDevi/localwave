@@ -13,11 +13,9 @@ import styles from "./App.module.css";
 const socket = io("http://localhost:3500/users");
 
 function App() {
-  const [userProfile, setUserProfile] = useState<UserData>({
-    UUID: null,
-    name: null,
-  });
+  const [userProfile, setUserProfile] = useState<UserData | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [userList, setUserList] = useState<UserData[]>([]);
 
   const UserProfile = ({ type }: UserLogoProps) => {
     return (
@@ -32,13 +30,15 @@ function App() {
       <UserSocket
         userProfileHook={[userProfile, setUserProfile]}
         isConnectedHook={[isConnected, setIsConnected]}
+        userListHook={[userList, setUserList]}
         socket={socket}
       />
       <Background />
       <header className={styles.header}>Local Wave</header>
       <div className={styles.userbox}>
-        <UserProfile />
-        <UserProfile />
+        {userList.map((u: UserData) => {
+          return <UserProfile key={u.UUID} />;
+        })}
       </div>
     </div>
   );
