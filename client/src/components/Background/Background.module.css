@@ -3,7 +3,6 @@
 	position: absolute;
 	width: 100vw;
 	height: 100vh;
-	z-index: -1;
 }
 
 .wifi {
@@ -24,6 +23,7 @@
 .wifi_background>svg{
 	width: 100px;
 	height: 100px;
+	z-index: 99;
 }
 
 @keyframes wifi_bg {

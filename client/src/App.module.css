@@ -23,6 +23,7 @@
 	margin: 10px;
 	background-color: grey;
 	cursor: pointer;
+	z-index: 99;
 }
 
 .user>svg {
