@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import { Socket, Namespace } from "socket.io";
 import {
   uniqueNamesGenerator,
   Config,
@@ -7,39 +7,46 @@ import {
 } from "unique-names-generator";
 import { v4 as uuid } from "uuid";
 
-import StandardSocket from "../interfaces/StandardSocket.js";
 import UserData from "../interfaces/UserData.js";
+import SocketBase from "../interfaces/SocketBase.js";
 
-class UserSocket implements StandardSocket {
-  private socket: Socket;
-  private users: UserData[] = [];
+class UserSocket extends SocketBase {
   private nameGeneratorConfig: Config = {
     dictionaries: [languages, names],
     separator: "_",
   };
 
-  handleConnection(userSocket: Socket, clientList: UserData[]) {
-    this.socket = userSocket;
-    this.users = clientList;
-
-    this.registerUser();
-
-    this.registerHandlers();
-  }
-
   registerHandlers() {
     this.handlePing();
     this.handleUserList();
     this.handleDisconnect();
+    this.handleDisconnectAll();
   }
 
   handleDisconnect() {
     this.socket.on("disconnect", () => {
-      this.users.forEach((user: UserData) => {
-        if (user.socket.id === this.socket.id)
-          return this.users.splice(this.users.indexOf(user), 1);
-      });
+      for (let u of this.users) {
+        if (u.socket.id === this.socket.id) {
+          this.users.splice(this.users.indexOf(u), 1);
+          break;
+        }
+      }
+
+      this.generatePayloadUserList(
+        true,
+        false,
+        null,
+        this.mainSocket.of("/users")
+      );
       console.log("[-] Connected users: ", this.users.length);
+    });
+  }
+
+  handleDisconnectAll() {
+    this.socket.on("remove-all", () => {
+      this.users.forEach((user: UserData) => {
+        user.socket.disconnect();
+      });
     });
   }
 
@@ -59,18 +66,17 @@ class UserSocket implements StandardSocket {
   }
 
   registerUser() {
+    let userList = this.generatePayloadUserList();
+
     let newUser = this.generateProfile();
     this.users.push(newUser);
-
-    let userList = [];
-    for (let u of this.users) userList.push({ UUID: u.UUID, name: u.name });
 
     this.socket.emit("regcomplete", {
       UUID: newUser.UUID,
       name: newUser.name,
-      userList: userList,
     });
-    this.socket.broadcast.emit("user-list", userList);
+
+    this.generatePayloadUserList(false, true, userList);
 
     console.log("[+] Connected users: ", this.users.length);
   }
@@ -87,6 +93,31 @@ class UserSocket implements StandardSocket {
       name: uniqueNamesGenerator(this.nameGeneratorConfig),
       socket: this.socket,
     };
+  }
+
+  private generatePayloadUserList(
+    gatherAndEmit: boolean = false,
+    emitOnly: boolean = false,
+    emitList?: UserData[],
+    customSocket?: Socket | Namespace
+  ) {
+    let userList = [];
+    const socketsender = customSocket ? customSocket : this.socket;
+    if (!emitOnly) {
+      for (let u of this.users) userList.push({ UUID: u.UUID, name: u.name });
+    }
+
+    if (!gatherAndEmit && !emitOnly) return userList;
+
+    if (gatherAndEmit) {
+      for (let _ of this.users) socketsender.emit("user-list", userList);
+    }
+
+    if (emitOnly) {
+      if (emitList)
+        for (let _ of this.users) socketsender.emit("user-list", emitList);
+      else throw new Error("No list was passed to emit directly");
+    }
   }
 }
 

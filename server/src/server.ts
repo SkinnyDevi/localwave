@@ -21,7 +21,7 @@ app.get("/", (_, res: Response) => {
 const httpServer = createServer(app);
 const io = Websocket.getInstance(httpServer);
 
-io.initializeHandlers([{ path: "/users", handler: new UserSocket() }]);
+io.initializeHandlers([new UserSocket("/users", io)]);
 
 httpServer.listen(PORT, () => {
   console.log(`[server]: Server is running on http://${HOST}:${PORT}`);

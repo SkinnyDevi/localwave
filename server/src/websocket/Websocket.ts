@@ -24,12 +24,12 @@ class Websocket extends Server {
   }
 
   public initializeHandlers(socketHandlers: Array<any>) {
-    socketHandlers.forEach((element) => {
+    for (let sh of socketHandlers) {
       let clientList = [];
-      Websocket.io.of(element.path).on("connection", (s: Socket) => {
-        element.handler.handleConnection(s, clientList);
+      Websocket.io.of(sh.path).on("connection", (s: Socket) => {
+        sh.handleConnection(s, clientList);
       });
-    });
+    }
   }
 }
 
