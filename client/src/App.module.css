@@ -5,29 +5,85 @@
 	color: white;
 	font-weight: bold;
 	font-size: 60px;
-	padding-top: 40px;
+	padding-top: 20px;
+	margin-bottom: 40px;
+}
+
+.footer {
+	position: absolute;
+	text-align: center;
+	width: 100vw;
+	color: white;
+	transform: translateY(-10vh);
+}
+
+.footer>p {
+	margin: 5px
+}
+
+.footer>p>span {
+	font-weight: bold;
+}
+
+.userbox_center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
 }
 
 .userbox {
 	display: flex;
-	align-items: center;
+	align-content: flex-start;
 	justify-content: center;
 	flex-wrap: wrap;
-	height: 100vh;
-	
 }
 
 .user {
-	border-radius: 50%;
-	padding: 20px;
-	margin: 10px;
-	background-color: grey;
-	cursor: pointer;
-	z-index: 99;
+	position: relative;
 	text-align: center;
+	
+	display: flex;
+	flex-flow: column wrap;
+	align-items: center;
+	justify-content: center;
+	
+	transform: translateY(38px);
+	padding-left: 15px;
+	padding-right: 15px;
+
+	cursor: pointer;
 }
 
-.user>svg {
-	width: 65px;
-	height: 65px;
+.user_logo {
+	border: 5px solid #5e6679;
+	padding: 20px;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+}
+
+.user_name {
+	text-align: center;
+	width: 96px;
+	color: white;
+}
+
+.user_name>p {
+	height: 49px;
+}
+
+.user_logo>svg {
+	transform: translateY(-5px);
+}
+
+@media screen and (max-height: 850px) {
+	.footer {
+		transform: translateY(-23vh);
+	}
+
+	.user_logo {
+		width: 30px;
+		height: 30px;
+	}
 }

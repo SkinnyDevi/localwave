@@ -14,33 +14,56 @@ const socket = io("http://192.168.1.177:3500/users");
 function App() {
   const [userProfile, userList] = useProfileInfo(socket);
 
+  const hexToRGB = (hex: string) => {
+    var r = parseInt(hex.slice(1, 3), 16),
+      g = parseInt(hex.slice(3, 5), 16),
+      b = parseInt(hex.slice(5, 7), 16);
+
+    return `rgb(${r}, ${g}, ${b})`;
+  };
+
   const UserProfile = ({ type, user }: UserProfileProps) => {
+    let randomHex2: string =
+      "#" + Math.floor(Math.random() * 16777215).toString(16);
+    let randomHex1: string =
+      "#" + Math.floor(Math.random() * 16777215).toString(16);
+
+    let gradient = `linear-gradient(45deg, ${hexToRGB(
+      randomHex1
+    )} 0%, ${hexToRGB(randomHex2)} 100%)`;
+
     return (
       <div className={styles.user}>
-        <UserLogo type={type} />
-        <p>{user.name}</p>
+        <div className={styles.user_logo} style={{ background: gradient }}>
+          <UserLogo type={type} />
+        </div>
+        <div className={styles.user_name}>
+          <p>{user.name?.replace("_", " ")}</p>
+        </div>
       </div>
     );
   };
 
   return (
-    <div>
+    <>
       <Background />
       <header className={styles.header}>Local Wave</header>
-      <header style={{ marginTop: "50px" }} className={styles.header}>
-        {userProfile.socket_id}
-      </header>
-      <header style={{ marginTop: "200px" }} className={styles.header}>
-        {userProfile.name?.replace("_", " ")}
-      </header>
-      <div className={styles.userbox}>
-        {userList.length > 0
-          ? userList.map((u: UserData) => {
-              return <UserProfile key={u.socket_id} user={u} />;
-            })
-          : null}
+      <div className={styles.userbox_center}>
+        <div className={styles.userbox}>
+          {userList.length > 0
+            ? userList.map((u: UserData) => {
+                return <UserProfile key={u.socket_id} user={u} />;
+              })
+            : null}
+        </div>
       </div>
-    </div>
+      <footer className={styles.footer}>
+        <p>
+          You are <span>{userProfile.name?.replace("_", " ")}</span>
+        </p>
+        <p>Connect to the same network as other devices to transfer files.</p>
+      </footer>
+    </>
   );
 }
 

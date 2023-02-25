@@ -4,13 +4,15 @@ import styles from "./Background.module.css";
 
 export default function Background() {
   useEffect(() => {
-    document.querySelectorAll("[ripple-size]").forEach((r) => {
-      const ripple = r as HTMLDivElement;
-      const rippleSize = +r.getAttribute("ripple-size")!;
+    setTimeout(() => {
+      document.querySelectorAll("[ripple-size]").forEach((r) => {
+        const ripple = r as HTMLDivElement;
+        const rippleSize = +r.getAttribute("ripple-size")!;
 
-      ripple.style.width = `${50 * rippleSize}px`;
-      ripple.style.height = `${50 * rippleSize}px`;
-    });
+        ripple.style.width = `${50 * rippleSize}px`;
+        ripple.style.height = `${50 * rippleSize}px`;
+      });
+    }, 1000);
   }, []);
 
   return (
