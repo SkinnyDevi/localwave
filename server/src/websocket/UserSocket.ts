@@ -22,7 +22,7 @@ class UserSocket extends SocketBase {
 
   handleDisconnect() {
     this.socket.on("disconnect", () => {
-      this.removeUser(this.socket.id);
+      this.updateUsers();
       this.generatePayloadUserList(
         true,
         false,
@@ -39,20 +39,11 @@ class UserSocket extends SocketBase {
     });
   }
 
-  handleRemoveUser() {
-    this.socket.on("remove-user", (profile: UserData) => {
-      console.log("Removing user: ", profile.socket_id);
-      this.users.splice(this.users.indexOf(profile));
-
-      this.socket.emit("user-removed");
-    });
-  }
-
   registerUser() {
     let userList = this.generatePayloadUserList();
 
     let newUser = this.generateProfile();
-    this.users.push(newUser);
+    this.addUser(newUser);
 
     this.socket.emit("regcomplete", {
       socket_id: newUser.socket_id,
@@ -83,7 +74,7 @@ class UserSocket extends SocketBase {
     emitOnly: boolean = false,
     emitList?: UserData[],
     customSocket?: Socket | Namespace
-  ) {
+  ): UserData[] {
     let userList = [];
     const socketsender = customSocket ? customSocket : this.socket;
     if (!emitOnly) {

@@ -24,6 +24,7 @@
 	background-color: grey;
 	cursor: pointer;
 	z-index: 99;
+	text-align: center;
 }
 
 .user>svg {

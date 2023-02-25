@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import UserData from "../interfaces/UserData";
 import { Socket } from "socket.io-client";
 
+const dummy = {
+  socket_id: null,
+  name: null,
+};
+
 export default function useProfileInfo(
   socket: Socket
 ): [UserData, UserData[], boolean] {
-  const [profile, setUserProfile] = useState<UserData>({
-    socket_id: null,
-    name: null,
-  });
+  const [profile, setUserProfile] = useState<UserData>(dummy);
   const [userList, setUserList] = useState<UserData[]>([]);
   const [isConnected, setIsConnected] = useState(false);
 
@@ -32,6 +34,8 @@ export default function useProfileInfo(
 
     socket.on("disconnect", () => {
       setIsConnected(false);
+      setUserProfile(dummy);
+      setUserList([]);
     });
   }, [socket]);
 

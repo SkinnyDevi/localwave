@@ -39,8 +39,11 @@ abstract class SocketBase implements ISocketBase {
     this._users.push(user);
   }
 
-  removeUser(userId: string) {
-    this._users = this._users.filter((u) => u.socket_id !== userId);
+  updateUsers() {
+    for (let i = 0; i < this._users.length; i++)
+      if (!this._users[i].socket.connected) delete this._users[i];
+
+    this._users = this._users.filter((n) => n); // Needed to clear out undefined/nulls
   }
 
   handleConnection(clientSocket: Socket): void {
