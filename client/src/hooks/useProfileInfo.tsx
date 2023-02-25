@@ -21,10 +21,12 @@ export default function useProfileInfo(
     });
 
     socket.on("regcomplete", (data: UserData) => {
-      setUserProfile(data);
+      profile.name = data.name;
+      profile.socket_id = data.socket_id;
     });
 
     socket.on("user-list", (users: UserData[]) => {
+      users = users.filter((u) => u.socket_id !== profile.socket_id);
       setUserList(users);
     });
 

@@ -1,4 +1,3 @@
-import { Socket, Namespace } from "socket.io";
 import {
   uniqueNamesGenerator,
   Config,
@@ -23,12 +22,7 @@ class UserSocket extends SocketBase {
   handleDisconnect() {
     this.socket.on("disconnect", () => {
       this.updateUsers();
-      this.generatePayloadUserList(
-        true,
-        false,
-        null,
-        this.mainSocket.of(this.path)
-      );
+      this.generatePayloadUserList(true);
       console.log("[-] Connected users: ", this.users.length);
     });
   }
@@ -40,8 +34,6 @@ class UserSocket extends SocketBase {
   }
 
   registerUser() {
-    let userList = this.generatePayloadUserList();
-
     let newUser = this.generateProfile();
     this.addUser(newUser);
 
@@ -50,7 +42,7 @@ class UserSocket extends SocketBase {
       name: newUser.name,
     });
 
-    this.generatePayloadUserList(false, true, userList);
+    this.generatePayloadUserList(true);
 
     console.log("[+] Connected users: ", this.users.length);
   }
@@ -72,11 +64,9 @@ class UserSocket extends SocketBase {
   private generatePayloadUserList(
     gatherAndEmit: boolean = false,
     emitOnly: boolean = false,
-    emitList?: UserData[],
-    customSocket?: Socket | Namespace
+    emitList?: UserData[]
   ): UserData[] {
     let userList = [];
-    const socketsender = customSocket ? customSocket : this.socket;
     if (!emitOnly) {
       for (let u of this.users)
         userList.push({ socket_id: u.socket_id, name: u.name });
@@ -85,12 +75,12 @@ class UserSocket extends SocketBase {
     if (!gatherAndEmit && !emitOnly) return userList;
 
     if (gatherAndEmit) {
-      for (let _ of this.users) socketsender.emit("user-list", userList);
+      for (let _ of this.users) this.broadcast().emit("user-list", userList);
     }
 
     if (emitOnly) {
       if (emitList)
-        for (let _ of this.users) socketsender.emit("user-list", emitList);
+        for (let _ of this.users) this.broadcast().emit("user-list", emitList);
       else throw new Error("No list was passed to emit directly");
     }
   }
