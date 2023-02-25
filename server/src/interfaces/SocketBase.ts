@@ -1,17 +1,7 @@
 import { Namespace, Socket } from "socket.io";
 import Websocket from "../websocket/Websocket.js";
-import UserData from "./UserData.js";
-
-type SocketData = UserData;
-
-export interface ISocketBase {
-  handleConnection(clientSocket: Socket, clientList: any[]): void;
-  registerHandlers(): void;
-  handleDisconnect(): void;
-  registerUser(): void;
-  handlePing(): void;
-  broadcast(): Namespace;
-}
+import SocketData from "./SocketDataTypes.js";
+import ISocketBase from "./ISocketBase.js";
 
 abstract class SocketBase implements ISocketBase {
   protected path: string;
@@ -27,6 +17,10 @@ abstract class SocketBase implements ISocketBase {
 
   addUser(user: SocketData) {
     this.users.push(user);
+  }
+
+  public getPath() {
+    return this.path;
   }
 
   updateUsers() {

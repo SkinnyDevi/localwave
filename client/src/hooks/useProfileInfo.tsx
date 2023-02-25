@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import UserData from "../interfaces/UserData";
+import { UserData } from "../interfaces/SocketDataTypes";
 import { Socket } from "socket.io-client";
 
 const dummy = {

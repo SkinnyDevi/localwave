@@ -1,25 +1,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-
 import io from "socket.io-client";
 
-import UserData from "./interfaces/UserData";
 import Background from "./components/Background/Background";
 import UserLogo from "./components/UserLogo";
 
 import styles from "./App.module.css";
 import useProfileInfo from "./hooks/useProfileInfo";
+import { UserData } from "./interfaces/SocketDataTypes";
+import { UserProfileProps } from "./interfaces/ComponentTypes";
 
 const socket = io("http://localhost:3500/users");
-
-interface testprops {
-  type?: string;
-  user: UserData;
-}
 
 function App() {
   const [userProfile, userList] = useProfileInfo(socket);
 
-  const UserProfile = ({ type, user }: testprops) => {
+  const UserProfile = ({ type, user }: UserProfileProps) => {
     return (
       <div className={styles.user}>
         <UserLogo type={type} />

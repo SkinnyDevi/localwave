@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
 import { Server as HttpServer } from "http";
-import UserData from "../interfaces/UserData.js";
+import SocketBase from "../interfaces/SocketBase.js";
 
 const WEBSOCKET_CORS = {
   origin: "*",
@@ -24,12 +24,11 @@ class Websocket extends Server {
     return Websocket.io;
   }
 
-  public initializeHandlers(socketHandlers: Array<any>) {
+  public initializeHandlers(socketHandlers: SocketBase[]) {
     for (let sh of socketHandlers) {
-      let clientList = [];
-      Websocket.io.of(sh.path).on("connection", (s: Socket) => {
-        sh.handleConnection(s, clientList);
-      });
+      Websocket.io
+        .of(sh.getPath())
+        .on("connection", (s: Socket) => sh.handleConnection(s));
     }
   }
 }

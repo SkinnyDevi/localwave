@@ -1,9 +1,11 @@
 import { Socket } from "socket.io";
 
-type UserData = {
+export type UserData = {
   socket_id: string;
   name?: string;
   socket: Socket;
 };
 
-export default UserData;
+type SocketData = UserData;
+
+export default SocketData;

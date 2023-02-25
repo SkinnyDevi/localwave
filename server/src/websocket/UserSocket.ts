@@ -5,7 +5,7 @@ import {
   names,
 } from "unique-names-generator";
 
-import UserData from "../interfaces/UserData.js";
+import { UserData } from "../interfaces/SocketDataTypes.js";
 import SocketBase from "../interfaces/SocketBase.js";
 
 class UserSocket extends SocketBase {

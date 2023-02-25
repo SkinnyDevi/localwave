@@ -1,6 +1,4 @@
-export interface UserLogoProps {
-  type?: string;
-}
+import { UserLogoProps } from "../interfaces/ComponentTypes";
 
 export default function WifiLogo({ type }: UserLogoProps) {
   switch (type) {
