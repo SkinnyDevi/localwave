@@ -1,7 +1,9 @@
 import { Socket } from "socket.io";
 
-export default interface UserData {
-  UUID: string;
+type UserData = {
+  socket_id: string;
   name?: string;
   socket: Socket;
-}
+};
+
+export default UserData;

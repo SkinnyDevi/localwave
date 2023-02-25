@@ -5,60 +5,43 @@ import {
   languages,
   names,
 } from "unique-names-generator";
-import { v4 as uuid } from "uuid";
 
 import UserData from "../interfaces/UserData.js";
 import SocketBase from "../interfaces/SocketBase.js";
 
 class UserSocket extends SocketBase {
-  private nameGeneratorConfig: Config = {
+  private readonly nameGeneratorConfig: Config = {
     dictionaries: [languages, names],
     separator: "_",
   };
 
   registerHandlers() {
-    this.handlePing();
+    super.registerHandlers();
     this.handleUserList();
-    this.handleDisconnect();
-    this.handleDisconnectAll();
   }
 
   handleDisconnect() {
     this.socket.on("disconnect", () => {
-      for (let u of this.users) {
-        if (u.socket.id === this.socket.id) {
-          this.users.splice(this.users.indexOf(u), 1);
-          break;
-        }
-      }
-
+      this.removeUser(this.socket.id);
       this.generatePayloadUserList(
         true,
         false,
         null,
-        this.mainSocket.of("/users")
+        this.mainSocket.of(this.path)
       );
       console.log("[-] Connected users: ", this.users.length);
     });
   }
 
-  handleDisconnectAll() {
-    this.socket.on("remove-all", () => {
-      this.users.forEach((user: UserData) => {
-        user.socket.disconnect();
-      });
-    });
-  }
-
   handleUserList() {
     this.socket.on("list", () => {
-      this.users.forEach((u: UserData) => console.log(u.UUID, u.name));
+      this.users.forEach((u: UserData) => console.log(u.socket_id, u.name));
     });
   }
 
   handleRemoveUser() {
     this.socket.on("remove-user", (profile: UserData) => {
-      console.log("Removing user: ", profile.UUID);
+      console.log("Removing user: ", profile.socket_id);
       this.users.splice(this.users.indexOf(profile));
 
       this.socket.emit("user-removed");
@@ -72,7 +55,7 @@ class UserSocket extends SocketBase {
     this.users.push(newUser);
 
     this.socket.emit("regcomplete", {
-      UUID: newUser.UUID,
+      socket_id: newUser.socket_id,
       name: newUser.name,
     });
 
@@ -89,7 +72,7 @@ class UserSocket extends SocketBase {
 
   private generateProfile(): UserData {
     return {
-      UUID: uuid(),
+      socket_id: this.socket.id,
       name: uniqueNamesGenerator(this.nameGeneratorConfig),
       socket: this.socket,
     };
@@ -104,7 +87,8 @@ class UserSocket extends SocketBase {
     let userList = [];
     const socketsender = customSocket ? customSocket : this.socket;
     if (!emitOnly) {
-      for (let u of this.users) userList.push({ UUID: u.UUID, name: u.name });
+      for (let u of this.users)
+        userList.push({ socket_id: u.socket_id, name: u.name });
     }
 
     if (!gatherAndEmit && !emitOnly) return userList;

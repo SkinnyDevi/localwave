@@ -1,8 +1,12 @@
 import { Socket } from "socket.io";
 import Websocket from "../websocket/Websocket.js";
+import UserData from "./UserData.js";
 
-export interface SocketBaseInterface {
-  getPath(): string;
+type SocketData = UserData;
+
+export interface ISocketBase {
+  get path(): string;
+  get users(): SocketData[];
 
   handleConnection(clientSocket: Socket, clientList: any[]): void;
   registerHandlers(): void;
@@ -11,24 +15,36 @@ export interface SocketBaseInterface {
   handlePing(): void;
 }
 
-abstract class SocketBase implements SocketBaseInterface {
-  protected path: string;
-  protected users: Array<any>;
+abstract class SocketBase implements ISocketBase {
+  private _path: string;
+  private _users: SocketData[];
   protected socket: Socket;
   protected mainSocket: Websocket;
 
   constructor(path: string, io: Websocket) {
     this.mainSocket = io;
-    this.path = path;
+    this._path = path;
+    this._users = [];
   }
 
-  getPath(): string {
-    return this.path;
+  public get path() {
+    return this._path;
   }
 
-  handleConnection(clientSocket: Socket, clientList?: any[]): void {
+  public get users() {
+    return this._users;
+  }
+
+  addUser(user: SocketData) {
+    this._users.push(user);
+  }
+
+  removeUser(userId: string) {
+    this._users = this._users.filter((u) => u.socket_id !== userId);
+  }
+
+  handleConnection(clientSocket: Socket): void {
     this.socket = clientSocket;
-    if (clientList) this.users = clientList;
 
     this.registerUser();
 

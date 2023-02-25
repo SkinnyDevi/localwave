@@ -1,4 +1,4 @@
 export default interface UserData {
-  UUID: string | null;
+  socket_id: string | null;
   name: string | null;
 }

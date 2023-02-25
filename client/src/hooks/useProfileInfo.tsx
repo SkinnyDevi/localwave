@@ -7,7 +7,7 @@ export default function useProfileInfo(
   socket: Socket
 ): [UserData, UserData[], boolean] {
   const [profile, setUserProfile] = useState<UserData>({
-    UUID: null,
+    socket_id: null,
     name: null,
   });
   const [userList, setUserList] = useState<UserData[]>([]);
@@ -33,7 +33,7 @@ export default function useProfileInfo(
     socket.on("disconnect", () => {
       setIsConnected(false);
     });
-  }, []);
+  }, [socket]);
 
   return [profile, userList, isConnected];
 }

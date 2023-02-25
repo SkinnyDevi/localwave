@@ -27,7 +27,7 @@ function App() {
       <Background />
       <header className={styles.header}>Local Wave</header>
       <header style={{ marginTop: "50px" }} className={styles.header}>
-        {userProfile.UUID}
+        {userProfile.socket_id}
       </header>
       <header style={{ marginTop: "200px" }} className={styles.header}>
         {userProfile.name?.replace("_", " ")}
@@ -35,7 +35,7 @@ function App() {
       <div className={styles.userbox}>
         {userList.length > 0
           ? userList.map((u: UserData) => {
-              return <UserProfile key={u.UUID} />;
+              return <UserProfile key={u.socket_id} />;
             })
           : null}
       </div>

@@ -1,5 +1,6 @@
 import { Server, Socket } from "socket.io";
 import { Server as HttpServer } from "http";
+import UserData from "../interfaces/UserData.js";
 
 const WEBSOCKET_CORS = {
   origin: "*",
