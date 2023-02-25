@@ -9,7 +9,7 @@ import useProfileInfo from "./hooks/useProfileInfo";
 import { UserData } from "./interfaces/SocketDataTypes";
 import { UserProfileProps } from "./interfaces/ComponentTypes";
 
-const socket = io("http://localhost:3500/users");
+const socket = io("http://192.168.1.177:3500/users");
 
 function App() {
   const [userProfile, userList] = useProfileInfo(socket);

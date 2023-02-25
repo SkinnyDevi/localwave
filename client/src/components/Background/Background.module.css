@@ -14,36 +14,39 @@
 }
 
 .wifi_background {
-	background-color: black;
-	padding: 30px;
-	border-radius: 50%;
-	animation: wifi_bg 2s ease-out infinite;
+	text-align: center;
 }
 
-.wifi_background>svg{
+.wifi_background>.ripple>div {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	width: 50px;
+	height: 50px;
+	border: 2px solid rgba(0, 0, 0, 1);
+	border-radius: 50%;
+	animation: ripple 3s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+}
+
+.wifi_background>.signal_logo {
+	position: absolute;
+	transform: translate(-50%, -50%);
+}
+
+.wifi_background>.signal_logo>svg{
 	width: 100px;
 	height: 100px;
 	z-index: 99;
 }
 
-@keyframes wifi_bg {
-	0% {
-		background-color: rgba(32, 32, 32, 0);
-		padding: 10px;
-	}
+@keyframes ripple {
+	from {
+		border: 2px solid rgba(0, 0, 0, 1);
+		transform: translate(-50%, -50%) scale(0);
+  }
+  
+  to {
+		border: 2px solid rgba(0, 0, 0, 0);
+		transform: translate(-50%, -50%) scale(3);
 
-	10% {
-		background-color: rgba(32, 32, 32, 1);
-		padding: 20px;
-	}
-	
-	30% {
-		background-color: rgba(32, 32, 32, 0);
-		padding: 30px;
-	}
-
-	100% {
-		background-color: rgba(32, 32, 32, 0);
-		padding: 30px;
 	}
 }

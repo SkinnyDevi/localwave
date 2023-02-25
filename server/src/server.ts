@@ -4,12 +4,13 @@ import { createServer } from "http";
 
 import Websocket from "./websocket/Websocket.js";
 import UserSocket from "./websocket/UserSocket.js";
+import CommonUtils from "./utils.js";
 
 dotenv.config();
 
 const app = express();
-const USE_IP = false;
-const IP = "10.193.111.55";
+const USE_IP = true;
+const IP = CommonUtils.networks()["Ethernet"];
 
 const PORT = process.env.SERVER_PORT || 8989;
 const HOST = USE_IP ? IP : "localhost";
