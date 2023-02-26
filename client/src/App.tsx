@@ -12,7 +12,7 @@ import { DialogUserCtxProvider } from "./hooks/DialogUserContext";
 
 const socket = io("http://192.168.1.177:3500/users");
 
-function App() {
+export default function App() {
   const [userProfile, userList, , plainText] = useProfileInfo(socket);
   const [showBox, setBox] = useState(false);
 
@@ -49,5 +49,3 @@ function App() {
     </DialogUserCtxProvider>
   );
 }
-
-export default App;

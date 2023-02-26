@@ -52,21 +52,22 @@ export default function MessageDialogBox({
           className={styles.tab_content}
           style={{ display: !showTextTab ? "flex" : "none" }}
         >
-          <div className={styles.send_buttons}>
-            <button>Add Files</button>
-            <button>Send Files</button>
-          </div>
           <div className={styles.file_list}>
             <ul>
               <li>Hello</li>
-              <li>Hello</li>
+              <li>{window.screen.width}</li>
             </ul>
+          </div>
+          <div className={styles.send_buttons}>
+            <button onClick={() => console.log("add")}>Add Files</button>
+            <button onClick={() => console.log("send")}>Send Files</button>
           </div>
         </div>
         <div
           className={styles.tab_content}
           style={{ display: showTextTab ? "flex" : "none" }}
         >
+          <textarea placeholder="Heya! You hear me?"></textarea>
           <div className={styles.send_buttons}>
             <button onClick={() => sendPlainText()}>Send Message</button>
           </div>
