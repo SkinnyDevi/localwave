@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import WifiLogo from "../WifiLogo";
 import styles from "./Background.module.css";
+import { BackgroundProps } from "../../interfaces/ComponentTypes";
 
-export default function Background() {
+export default function Background({ hasUsers }: BackgroundProps) {
   const [timer, setTimerComplete] = useState(false);
 
   useEffect(() => {
@@ -32,7 +33,10 @@ export default function Background() {
               <div ripple-size={3}></div>
             </div>
           ) : null}
-          <div className={styles.signal_logo}>
+          <div
+            className={styles.signal_logo}
+            style={{ opacity: hasUsers ? 0.3 : 1 }}
+          >
             <WifiLogo />
           </div>
         </div>

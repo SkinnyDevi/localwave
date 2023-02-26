@@ -46,7 +46,7 @@ function App() {
 
   return (
     <>
-      <Background />
+      <Background hasUsers={userList.length > 0} />
       <header className={styles.header}>Local Wave</header>
       <div className={styles.userbox_center}>
         <div className={styles.userbox}>

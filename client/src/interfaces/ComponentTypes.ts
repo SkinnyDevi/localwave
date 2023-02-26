@@ -8,3 +8,7 @@ export type UserProfileProps = {
   type?: string;
   user: UserData;
 };
+
+export type BackgroundProps = {
+  hasUsers: boolean;
+};
