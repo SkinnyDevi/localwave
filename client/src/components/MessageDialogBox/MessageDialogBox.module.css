@@ -84,6 +84,16 @@
 	font-size: 15px;
 }
 
+.send_buttons>button:disabled,
+.send_buttons>button[disabled] {
+	color: #37549b;
+	cursor: default;
+}
+
+.send_buttons>button:hover {
+	color: #37549b;
+}
+
 .tab_content>textarea {
 	width: 92%;
 	height: 176px;
@@ -96,9 +106,6 @@
 	font-size: 15px;
 }
 
-.send_buttons>button:hover {
-	color: #37549b;
-}
 
 .file_list {
 	text-align: center;

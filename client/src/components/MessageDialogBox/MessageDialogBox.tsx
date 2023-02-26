@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { MessageBoxProps } from "../../interfaces/ComponentTypes";
-import { MessageData } from "../../interfaces/SocketDataTypes";
 import { DialogUserCtx } from "../../hooks/DialogUserContext";
 import styles from "./MessageDialogBox.module.css";
 
@@ -12,15 +11,14 @@ export default function MessageDialogBox({
 }: MessageBoxProps) {
   const [showTextTab, setTextTab] = useState(false);
   const { dialogUser, setDialogUser } = useContext(DialogUserCtx);
+  const [plainText, setPlainText] = useState("");
 
   const sendPlainText = () => {
-    const text = "Hello";
-    const msgData: MessageData = {
+    socket.emit("sendPlainText", {
       from: myProfile.socket_id!,
       to: dialogUser.socket_id!,
-      message: text,
-    };
-    socket.emit("sendPlainText", msgData);
+      message: plainText!,
+    });
   };
 
   return (
@@ -67,9 +65,18 @@ export default function MessageDialogBox({
           className={styles.tab_content}
           style={{ display: showTextTab ? "flex" : "none" }}
         >
-          <textarea placeholder="Heya! You hear me?"></textarea>
+          <textarea
+            placeholder="Heya! You hear me?"
+            onChange={(e) => setPlainText(e.target.value)}
+            maxLength={2000}
+          />
           <div className={styles.send_buttons}>
-            <button onClick={() => sendPlainText()}>Send Message</button>
+            <button
+              onClick={() => sendPlainText()}
+              disabled={!(plainText.length > 0)}
+            >
+              Send Message
+            </button>
           </div>
         </div>
       </div>
