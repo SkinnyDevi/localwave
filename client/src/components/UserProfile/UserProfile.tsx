@@ -1,17 +1,24 @@
+import { useContext } from "react";
 import { UserProfileProps } from "../../interfaces/ComponentTypes";
 import UserLogo from "../UserLogo";
 import styles from "./UserProfile.module.css";
+import { DialogUserCtx } from "../../hooks/DialogUserContext";
 
 export default function UserProfile({
   type,
   user,
   openBoxFn,
 }: UserProfileProps) {
+  const { setDialogUser } = useContext(DialogUserCtx);
+
   return (
     <div className={styles.user}>
       <div
         className={styles.user_logo}
-        onClick={() => openBoxFn()}
+        onClick={() => {
+          setDialogUser(user);
+          openBoxFn();
+        }}
         style={{ background: user.gradient }}
       >
         <UserLogo type={type} />

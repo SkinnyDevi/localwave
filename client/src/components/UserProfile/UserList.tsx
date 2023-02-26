@@ -8,7 +8,11 @@ export default function UserList({ list, openBoxFn }: UserProfileListProps) {
       {list.length > 0 ? (
         list.map((u: UserData) => {
           return (
-            <UserProfile key={u.socket_id} user={u} openBoxFn={openBoxFn} />
+            <UserProfile
+              key={u.socket_id}
+              user={u}
+              openBoxFn={() => openBoxFn()}
+            />
           );
         })
       ) : (

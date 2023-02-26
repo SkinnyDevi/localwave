@@ -56,8 +56,8 @@
 	
 	display: flex;
 	flex-flow: row wrap;
-	justify-content: start;
-	align-content: start;
+	justify-content: flex-start;
+	align-content: flex-start;
 
 	border-radius: 0 0 15px 15px;
 	height: 72%;

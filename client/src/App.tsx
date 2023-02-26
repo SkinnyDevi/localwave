@@ -5,26 +5,16 @@ import { useEffect, useState } from "react";
 
 import Background from "./components/Background/Background";
 import useProfileInfo from "./hooks/useProfileInfo";
-import { MessageData } from "./interfaces/SocketDataTypes";
 import MessageDialogBox from "./components/MessageDialogBox/MessageDialogBox";
 import UserList from "./components/UserProfile/UserList";
 import styles from "./App.module.css";
+import { DialogUserCtxProvider } from "./hooks/DialogUserContext";
 
 const socket = io("http://192.168.1.177:3500/users");
 
 function App() {
   const [userProfile, userList, , plainText] = useProfileInfo(socket);
   const [showBox, setBox] = useState(false);
-
-  const sendPlainText = (socket_id: string) => {
-    const text = "Hello";
-    const msgData: MessageData = {
-      from: userProfile.socket_id!,
-      to: socket_id,
-      message: text,
-    };
-    socket.emit("sendPlainText", msgData);
-  };
 
   useEffect(() => {
     if (plainText !== null && plainText !== undefined) {
@@ -36,8 +26,13 @@ function App() {
   }, [plainText]);
 
   return (
-    <>
-      <MessageDialogBox show={showBox} hideFunction={() => setBox(false)} />
+    <DialogUserCtxProvider>
+      <MessageDialogBox
+        show={showBox}
+        hideFunction={() => setBox(false)}
+        myProfile={userProfile}
+        socket={socket}
+      />
       <Background hasUsers={userList.length > 0} />
       <header className={styles.header}>Local Wave</header>
       <div className={styles.userbox_center}>
@@ -51,7 +46,7 @@ function App() {
         </p>
         <p>Connect to the same network as other devices to transfer files.</p>
       </footer>
-    </>
+    </DialogUserCtxProvider>
   );
 }
 

@@ -1,3 +1,4 @@
+import { Socket } from "socket.io-client";
 import { UserData } from "./SocketDataTypes";
 
 export type UserLogoProps = {
@@ -17,6 +18,8 @@ export type BackgroundProps = {
 export type MessageBoxProps = {
   show: boolean;
   hideFunction: Function;
+  myProfile: UserData;
+  socket: Socket;
 };
 
 export type UserProfileListProps = {
