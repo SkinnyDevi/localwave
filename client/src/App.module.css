@@ -15,6 +15,7 @@
 	width: 100vw;
 	color: white;
 	transform: translateY(-10vh);
+	-webkit-transform: translate(0, -10vh);
 }
 
 .footer>p {
@@ -49,6 +50,7 @@
 	justify-content: center;
 	
 	transform: translateY(38px);
+	-webkit-transform: translate(0, 38px);
 	padding-left: 15px;
 	padding-right: 15px;
 
@@ -75,11 +77,25 @@
 
 .user_logo>svg {
 	transform: translateY(-5px);
+	-webkit-transform: translate(0, -5px);
 }
 
-@media screen and (max-height: 850px) {
+@media screen and (min-height: 600px) and (max-height:799px) {
 	.footer {
 		transform: translateY(-23vh);
+		-webkit-transform: translate(0, -23vh);
+	}
+
+	.user_logo {
+		width: 30px;
+		height: 30px;
+	}
+}
+
+@media screen and (min-height: 800px) and (max-height: 900px) {
+	.footer {
+		transform: translateY(-23vh);
+		-webkit-transform: translate(0, -23vh);
 	}
 
 	.user_logo {
