@@ -1,0 +1,122 @@
+.box {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 1;
+	transition: all 0.5s ease-in;
+	-webkit-transition: all 0.5s ease-in;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.message_box {
+	background-color: #1f2126;
+	border: 3px solid #363b46;
+	width: 500px;
+	height: 300px;
+	border-radius: 15px;
+	transition: all 0.7s;
+	-webkit-transition: all 0.7s;
+}
+
+.tabs {
+	padding-left: 10px;
+	padding-top: 5px;
+	height: 15%
+}
+
+
+.tabs button {
+	background-color: inherit;
+	color: rgb(212, 212, 212);
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.2s;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.tabs button.box_close {
+	float: right;
+}
+
+.tabs button:hover {
+  color: #494949;
+}
+
+.tab_content {
+	padding: 0 12px;
+  border-top: none;
+	
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: start;
+	align-content: start;
+
+	border-radius: 0 0 15px 15px;
+	height: 72%;
+	width: 95%;
+}
+
+.send_buttons {
+	width: 100%;
+	text-align: center;
+}
+
+.file_list {
+	margin-top: 20px;
+	text-align: center;
+	width: 100%;
+	color: white;
+}
+
+.file_list>ul {
+	height: 180px;
+	overflow-y: scroll;
+	border: 3px solid black;
+	border-radius: 10px;
+	margin-block-start: 0;
+	margin-block-end: 0;
+	padding: 0;
+}
+
+.file_list>ul>li {
+	text-align: left;
+	list-style: none;
+	margin: 0;
+	padding: 5px 0 3px 10px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0); 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #4d4d4d; 
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+@media screen and (max-height: 899px) {
+	.message_box {
+		width: 350px;
+		height: 400px;
+	}
+
+	.file_list>ul {
+		max-height: 63%;
+	}
+}

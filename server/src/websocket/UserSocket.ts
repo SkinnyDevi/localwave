@@ -50,6 +50,7 @@ class UserSocket extends SocketBase {
     this.socket.emit("regcomplete", {
       socket_id: newUser.socket_id,
       name: newUser.name,
+      gradient: newUser.gradient,
     });
 
     this.generatePayloadUserList(true);
@@ -63,11 +64,31 @@ class UserSocket extends SocketBase {
     });
   }
 
+  private hexToRGB(hex: string): string {
+    var r = parseInt(hex.slice(1, 3), 16),
+      g = parseInt(hex.slice(3, 5), 16),
+      b = parseInt(hex.slice(5, 7), 16);
+
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  private randomGradient(): string {
+    let randomHex2: string =
+      "#" + Math.floor(Math.random() * 16777215).toString(16);
+    let randomHex1: string =
+      "#" + Math.floor(Math.random() * 16777215).toString(16);
+
+    return `linear-gradient(45deg, ${this.hexToRGB(
+      randomHex1
+    )} 0%, ${this.hexToRGB(randomHex2)} 100%)`;
+  }
+
   private generateProfile(): UserData {
     return {
       socket_id: this.socket.id,
       name: uniqueNamesGenerator(this.nameGeneratorConfig),
       socket: this.socket,
+      gradient: this.randomGradient(),
     };
   }
 
@@ -79,7 +100,11 @@ class UserSocket extends SocketBase {
     let userList = [];
     if (!emitOnly) {
       for (let u of this.users)
-        userList.push({ socket_id: u.socket_id, name: u.name });
+        userList.push({
+          socket_id: u.socket_id,
+          name: u.name,
+          gradient: u.gradient,
+        });
     }
 
     if (!gatherAndEmit && !emitOnly) return userList;

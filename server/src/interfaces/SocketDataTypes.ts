@@ -4,6 +4,7 @@ export type UserData = {
   socket_id: string;
   name?: string;
   socket: Socket;
+  gradient: string;
 };
 
 export type MessageData = {

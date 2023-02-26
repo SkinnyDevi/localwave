@@ -19,6 +19,7 @@ export default function useProfileInfo(
     socket.on("regcomplete", (data: UserData) => {
       profile.name = data.name;
       profile.socket_id = data.socket_id;
+      profile.gradient = data.gradient;
     });
 
     socket.on("user-list", (users: UserData[]) => {
