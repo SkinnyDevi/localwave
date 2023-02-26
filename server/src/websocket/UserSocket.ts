@@ -5,7 +5,7 @@ import {
   names,
 } from "unique-names-generator";
 
-import { UserData } from "../interfaces/SocketDataTypes.js";
+import { MessageData, UserData } from "../interfaces/SocketDataTypes.js";
 import SocketBase from "../interfaces/SocketBase.js";
 
 class UserSocket extends SocketBase {
@@ -17,6 +17,7 @@ class UserSocket extends SocketBase {
   registerHandlers() {
     super.registerHandlers();
     this.handleUserList();
+    this.handlePlainText();
   }
 
   handleDisconnect() {
@@ -30,6 +31,15 @@ class UserSocket extends SocketBase {
   handleUserList() {
     this.socket.on("list", () => {
       this.users.forEach((u: UserData) => console.log(u.socket_id, u.name));
+    });
+  }
+
+  handlePlainText() {
+    this.socket.on("sendPlainText", (msg: MessageData) => {
+      this.mainSocket
+        .of(this.path)
+        .sockets.get(msg.to)
+        .emit("receivePlainText", msg);
     });
   }
 

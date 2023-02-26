@@ -6,6 +6,12 @@ export type UserData = {
   socket: Socket;
 };
 
+export type MessageData = {
+  from: string; // Sender Socket ID
+  message: string;
+  to: string; // Sender Socket ID
+};
+
 type SocketData = UserData;
 
 export default SocketData;

@@ -6,13 +6,14 @@ import UserLogo from "./components/UserLogo";
 
 import styles from "./App.module.css";
 import useProfileInfo from "./hooks/useProfileInfo";
-import { UserData } from "./interfaces/SocketDataTypes";
+import { UserData, MessageData } from "./interfaces/SocketDataTypes";
 import { UserProfileProps } from "./interfaces/ComponentTypes";
+import { useEffect } from "react";
 
 const socket = io("http://192.168.1.177:3500/users");
 
 function App() {
-  const [userProfile, userList] = useProfileInfo(socket);
+  const [userProfile, userList, _, plainText] = useProfileInfo(socket);
 
   const hexToRGB = (hex: string) => {
     var r = parseInt(hex.slice(1, 3), 16),
@@ -20,6 +21,16 @@ function App() {
       b = parseInt(hex.slice(5, 7), 16);
 
     return `rgb(${r}, ${g}, ${b})`;
+  };
+
+  const sendPlainText = (socket_id: string) => {
+    const text = "Hello";
+    const msgData: MessageData = {
+      from: userProfile.socket_id!,
+      to: socket_id,
+      message: text,
+    };
+    socket.emit("sendPlainText", msgData);
   };
 
   const UserProfile = ({ type, user }: UserProfileProps) => {
@@ -33,7 +44,10 @@ function App() {
     )} 0%, ${hexToRGB(randomHex2)} 100%)`;
 
     return (
-      <div className={styles.user}>
+      <div
+        className={styles.user}
+        onClick={() => sendPlainText(user.socket_id!)}
+      >
         <div className={styles.user_logo} style={{ background: gradient }}>
           <UserLogo type={type} />
         </div>
@@ -43,6 +57,15 @@ function App() {
       </div>
     );
   };
+
+  useEffect(() => {
+    if (plainText !== null && plainText !== undefined) {
+      plainText.from = userList.find(
+        (u) => u.socket_id === plainText.from
+      )?.name!;
+      console.log(plainText);
+    }
+  }, [plainText]);
 
   return (
     <>

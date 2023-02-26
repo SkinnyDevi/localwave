@@ -1,19 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { UserData } from "../interfaces/SocketDataTypes";
+import { MessageData, UserData } from "../interfaces/SocketDataTypes";
 import { Socket } from "socket.io-client";
-
-const dummy = {
-  socket_id: null,
-  name: null,
-};
 
 export default function useProfileInfo(
   socket: Socket
-): [UserData, UserData[], boolean] {
-  const [profile, setUserProfile] = useState<UserData>(dummy);
+): [UserData, UserData[], boolean, MessageData] {
+  const [profile, setUserProfile] = useState<UserData>(Object.create(null));
   const [userList, setUserList] = useState<UserData[]>([]);
   const [isConnected, setIsConnected] = useState(false);
+  const [plainText, setPlainText] = useState<MessageData>();
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -34,12 +30,17 @@ export default function useProfileInfo(
       console.log(new Date().toISOString());
     });
 
+    socket.on("receivePlainText", (msg: MessageData) => {
+      setPlainText(msg);
+    });
+
     socket.on("disconnect", () => {
       setIsConnected(false);
-      setUserProfile(dummy);
+      setUserProfile(Object.create(null));
       setUserList([]);
+      setPlainText(Object.create(null));
     });
   }, [socket]);
 
-  return [profile, userList, isConnected];
+  return [profile, userList, isConnected, plainText!];
 }
