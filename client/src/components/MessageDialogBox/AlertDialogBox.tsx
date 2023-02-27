@@ -1,12 +1,48 @@
 import { AlertBoxProps } from "../../interfaces/ComponentTypes";
-import { MessageData, FileDropData } from "../../interfaces/SocketDataTypes";
 import styles from "./MessageDialogBox.module.css";
 
 export default function AlertDialogBox({
   show,
   hideFunction,
-  received,
+  receivedPlainText,
+  receivedFiles,
 }: AlertBoxProps) {
+  const getReceiver = () => {
+    if (receivedFiles !== undefined) return receivedFiles.from;
+    if (receivedPlainText !== undefined) return receivedPlainText.from;
+  };
+
+  const getReceiverType = () => {
+    if (receivedFiles !== undefined) return "FileDropData";
+    if (receivedPlainText !== undefined) return "MessageData";
+
+    return null;
+  };
+
+  const ReceivedComponent = () => {
+    if (getReceiverType() === null) return <></>;
+
+    if (getReceiverType()! === "FileDropData") {
+      return (
+        <div className={styles.tab_content}>
+          <div className={styles.file_list}>
+            <ul>
+              {receivedFiles?.files?.map((f) => {
+                return <li>{f.name}</li>;
+              })}
+            </ul>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className={styles.tab_content}>
+        <input readOnly value={receivedPlainText?.message} />
+      </div>
+    );
+  };
+
   return (
     <div
       className={styles.box}
@@ -21,27 +57,13 @@ export default function AlertDialogBox({
       >
         <div className={styles.tabs}>
           <button disabled>
-            From: <span>{received.from}</span>
+            From: <span>{getReceiver()}</span>
           </button>
           <button className={styles.box_close} onClick={() => hideFunction()}>
             X
           </button>
         </div>
-        {(received as FileDropData).files !== undefined ? (
-          <div className={styles.tab_content}>
-            <div className={styles.file_list}>
-              <ul>
-                {(received as FileDropData).files?.map((f) => {
-                  return <li>{f.name}</li>;
-                })}
-              </ul>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.tab_content}>
-            <input readOnly value={(received as MessageData).message} />
-          </div>
-        )}
+        <ReceivedComponent />
       </div>
     </div>
   );

@@ -10,7 +10,8 @@ dotenv.config();
 
 const app = express();
 const USE_IP = true;
-const IP = CommonUtils.networks()["Ethernet"];
+const nets = CommonUtils.networks();
+const IP = nets["Ethernet"] || nets["en0"];
 
 const PORT = process.env.SERVER_PORT || 8989;
 const HOST = USE_IP ? IP : "localhost";

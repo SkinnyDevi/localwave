@@ -30,5 +30,6 @@ export type MessageBoxProps = {
 export type AlertBoxProps = {
   show: boolean;
   hideFunction: Function;
-  received: FileDropData | MessageData;
+  receivedFiles?: FileDropData;
+  receivedPlainText?: MessageData;
 };
