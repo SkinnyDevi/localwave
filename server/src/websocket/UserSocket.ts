@@ -44,7 +44,12 @@ class UserSocket extends SocketBase {
     });
   }
 
-  handleFileDrop() {}
+  handleFileDrop() {
+    this.socket.on("filedrop-send", (file: File, cb: Function) => {
+      console.log(file);
+      cb();
+    });
+  }
 
   registerUser() {
     let newUser = this.generateProfile();
