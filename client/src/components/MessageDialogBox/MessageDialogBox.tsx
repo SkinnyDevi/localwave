@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { MessageBoxProps } from "../../interfaces/ComponentTypes";
 import { DialogUserCtx } from "../../hooks/DialogUserContext";
 import styles from "./MessageDialogBox.module.css";
