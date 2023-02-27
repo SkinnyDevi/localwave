@@ -48,6 +48,11 @@
 	float: right;
 }
 
+.tabs>button.from_readonly:hover {
+	color: rgb(212, 212, 212) !important;
+	cursor: text;
+}
+
 .tabs>button:hover {
   color: #494949;
 }

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MessageBoxProps } from "../../interfaces/ComponentTypes";
 import { DialogUserCtx } from "../../hooks/DialogUserContext";
 import styles from "./MessageDialogBox.module.css";
@@ -13,13 +13,19 @@ export default function MessageDialogBox({
   const { dialogUser, setDialogUser } = useContext(DialogUserCtx);
   const [plainText, setPlainText] = useState("");
 
+  const hide = () => {
+    hideFunction();
+    setDialogUser(Object.create(null));
+    setPlainText("");
+  };
+
   const sendPlainText = () => {
     socket.emit("sendPlainText", {
       from: myProfile.socket_id!,
       to: dialogUser.socket_id!,
       message: plainText!,
     });
-    hideFunction();
+    hide();
   };
 
   return (
@@ -37,13 +43,7 @@ export default function MessageDialogBox({
         <div className={styles.tabs}>
           <button onClick={() => setTextTab(false)}>Files</button>
           <button onClick={() => setTextTab(true)}>Text</button>
-          <button
-            className={styles.box_close}
-            onClick={() => {
-              hideFunction();
-              setDialogUser(Object.create(null));
-            }}
-          >
+          <button className={styles.box_close} onClick={() => hide()}>
             X
           </button>
         </div>
@@ -69,6 +69,7 @@ export default function MessageDialogBox({
           <textarea
             placeholder="Heya! You hear me?"
             onChange={(e) => setPlainText(e.target.value)}
+            value={plainText}
             maxLength={2000}
           />
           <div className={styles.send_buttons}>

@@ -63,7 +63,7 @@ export default function AlertDialogBox({
         }}
       >
         <div className={styles.tabs}>
-          <button disabled>
+          <button disabled className={styles.from_readonly}>
             From: <span>{getReceiver()?.replace("_", " ")}</span>
           </button>
           <button className={styles.box_close} onClick={() => hideFunction()}>
