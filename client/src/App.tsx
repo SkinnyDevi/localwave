@@ -11,7 +11,7 @@ import styles from "./App.module.css";
 import { DialogUserCtxProvider } from "./hooks/DialogUserContext";
 import AlertDialogBox from "./components/MessageDialogBox/AlertDialogBox";
 
-const socket = io("http://10.195.127.23:3500/users");
+const socket = io("http://192.168.1.177:3500/users");
 
 export default function App() {
   const [userProfile, userList, , plainText] = useProfileInfo(socket);

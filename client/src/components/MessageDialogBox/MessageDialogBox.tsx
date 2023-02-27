@@ -19,6 +19,7 @@ export default function MessageDialogBox({
       to: dialogUser.socket_id!,
       message: plainText!,
     });
+    hideFunction();
   };
 
   return (

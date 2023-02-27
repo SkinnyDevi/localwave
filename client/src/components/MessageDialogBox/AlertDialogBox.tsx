@@ -38,7 +38,7 @@ export default function AlertDialogBox({
 
     return (
       <div className={styles.tab_content}>
-        <input readOnly value={receivedPlainText?.message} />
+        <textarea readOnly value={receivedPlainText?.message} />
       </div>
     );
   };
@@ -57,7 +57,7 @@ export default function AlertDialogBox({
       >
         <div className={styles.tabs}>
           <button disabled>
-            From: <span>{getReceiver()}</span>
+            From: <span>{getReceiver()?.replace("_", " ")}</span>
           </button>
           <button className={styles.box_close} onClick={() => hideFunction()}>
             X
