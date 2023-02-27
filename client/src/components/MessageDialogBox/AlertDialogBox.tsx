@@ -6,10 +6,17 @@ export default function AlertDialogBox({
   hideFunction,
   receivedPlainText,
   receivedFiles,
+  userList,
 }: AlertBoxProps) {
+  const findReceiverName = (socket_id: string) => {
+    return userList.find((u) => u.socket_id === socket_id)?.name!;
+  };
+
   const getReceiver = () => {
-    if (receivedFiles !== undefined) return receivedFiles.from;
-    if (receivedPlainText !== undefined) return receivedPlainText.from;
+    if (receivedFiles !== undefined)
+      return findReceiverName(receivedFiles.from);
+    if (receivedPlainText !== undefined)
+      return findReceiverName(receivedPlainText.from);
   };
 
   const getReceiverType = () => {

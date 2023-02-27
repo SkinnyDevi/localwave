@@ -32,4 +32,5 @@ export type AlertBoxProps = {
   hideFunction: Function;
   receivedFiles?: FileDropData;
   receivedPlainText?: MessageData;
+  userList: UserData[];
 };

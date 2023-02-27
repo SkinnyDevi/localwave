@@ -20,9 +20,6 @@ export default function App() {
 
   useEffect(() => {
     if (plainText !== null && plainText !== undefined) {
-      plainText.from = userList.find(
-        (u) => u.socket_id === plainText.from
-      )?.name!;
       setDialogBox(true);
     }
   }, [plainText]);
@@ -39,6 +36,7 @@ export default function App() {
         show={showDialogBox}
         receivedPlainText={plainText}
         hideFunction={() => setDialogBox(false)}
+        userList={userList}
       />
       <Background hasUsers={userList.length > 0} />
       <header className={styles.header}>Local Wave</header>
