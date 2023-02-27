@@ -1,8 +1,12 @@
 import { Socket } from "socket.io-client";
-import { UserData } from "./SocketDataTypes";
+import { FileDropData, UserData, MessageData } from "./SocketDataTypes";
 
 export type UserLogoProps = {
   type?: string;
+};
+
+export type BackgroundProps = {
+  hasUsers: boolean;
 };
 
 export type UserProfileProps = {
@@ -11,8 +15,9 @@ export type UserProfileProps = {
   openBoxFn: Function;
 };
 
-export type BackgroundProps = {
-  hasUsers: boolean;
+export type UserProfileListProps = {
+  list: UserData[];
+  openBoxFn: Function;
 };
 
 export type MessageBoxProps = {
@@ -22,7 +27,8 @@ export type MessageBoxProps = {
   socket: Socket;
 };
 
-export type UserProfileListProps = {
-  list: UserData[];
-  openBoxFn: Function;
+export type AlertBoxProps = {
+  show: boolean;
+  hideFunction: Function;
+  received: FileDropData | MessageData;
 };

@@ -9,35 +9,42 @@ import MessageDialogBox from "./components/MessageDialogBox/MessageDialogBox";
 import UserList from "./components/UserProfile/UserList";
 import styles from "./App.module.css";
 import { DialogUserCtxProvider } from "./hooks/DialogUserContext";
+import AlertDialogBox from "./components/MessageDialogBox/AlertDialogBox";
 
 const socket = io("http://192.168.1.177:3500/users");
 
 export default function App() {
   const [userProfile, userList, , plainText] = useProfileInfo(socket);
-  const [showBox, setBox] = useState(false);
+  const [showMsgBox, setMsgBox] = useState(false);
+  const [showDialogBox, setDialogBox] = useState(false);
 
   useEffect(() => {
     if (plainText !== null && plainText !== undefined) {
       plainText.from = userList.find(
         (u) => u.socket_id === plainText.from
       )?.name!;
-      console.log(plainText);
+      setDialogBox(true);
     }
   }, [plainText]);
 
   return (
     <DialogUserCtxProvider>
       <MessageDialogBox
-        show={showBox}
-        hideFunction={() => setBox(false)}
+        show={showMsgBox}
+        hideFunction={() => setMsgBox(false)}
         myProfile={userProfile}
         socket={socket}
+      />
+      <AlertDialogBox
+        show={showDialogBox}
+        received={plainText}
+        hideFunction={() => setDialogBox(false)}
       />
       <Background hasUsers={userList.length > 0} />
       <header className={styles.header}>Local Wave</header>
       <div className={styles.userbox_center}>
         <div className={styles.userbox}>
-          <UserList list={userList} openBoxFn={() => setBox(true)} />
+          <UserList list={userList} openBoxFn={() => setMsgBox(true)} />
         </div>
       </div>
       <footer className={styles.footer}>

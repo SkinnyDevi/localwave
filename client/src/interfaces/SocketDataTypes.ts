@@ -6,6 +6,12 @@ export type UserData = {
 
 export type MessageData = {
   from: string; // Sender Socket ID
-  message: string;
+  message?: string;
   to: string; // Sender Socket ID
+};
+
+export type FileDropData = {
+  from: string;
+  files?: File[];
+  to: string;
 };
