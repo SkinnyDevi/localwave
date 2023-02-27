@@ -13,6 +13,7 @@ class Websocket extends Server {
   constructor(httpServer: HttpServer) {
     super(httpServer, {
       cors: WEBSOCKET_CORS,
+      maxHttpBufferSize: 3e9,
     });
   }
 

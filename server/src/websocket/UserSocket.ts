@@ -18,6 +18,7 @@ class UserSocket extends SocketBase {
     super.registerHandlers();
     this.handleUserList();
     this.handlePlainText();
+    this.handleFileDrop();
   }
 
   handleDisconnect() {
@@ -42,6 +43,8 @@ class UserSocket extends SocketBase {
         .emit("receivePlainText", msg);
     });
   }
+
+  handleFileDrop() {}
 
   registerUser() {
     let newUser = this.generateProfile();
