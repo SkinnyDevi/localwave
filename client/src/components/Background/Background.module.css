@@ -34,6 +34,7 @@
 	transform: translate(-50%, -50%);
 	-webkit-transform: translate(-50%, -50%);
 	transition: 1s;
+	-webkit-transition: 1s;
 }
 
 .wifi_background>.signal_logo>svg{

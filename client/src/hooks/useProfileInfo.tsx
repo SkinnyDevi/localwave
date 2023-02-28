@@ -41,7 +41,7 @@ export default function useProfileInfo(
       setUserList([]);
       setPlainText(Object.create(null));
     });
-  }, [socket]);
+  }, []);
 
   return [profile, userList, isConnected, plainText!];
 }

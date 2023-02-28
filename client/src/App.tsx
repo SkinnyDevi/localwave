@@ -11,7 +11,7 @@ import styles from "./App.module.css";
 import { DialogUserCtxProvider } from "./hooks/DialogUserContext";
 import AlertDialogBox from "./components/MessageDialogBox/AlertDialogBox";
 
-const socket = io("http://192.168.1.177:3500/users");
+const socket = io("http://localhost:3500/users", { autoConnect: false }); // Needed for safari to autoconnect.
 
 export default function App() {
   const [userProfile, userList, , plainText] = useProfileInfo(socket);
@@ -19,8 +19,16 @@ export default function App() {
   const [showDialogBox, setDialogBox] = useState(false);
 
   useEffect(() => {
+    socket.connect(); // Needed for safari to autoconnect.
+  }, []);
+
+  useEffect(() => {
     if (plainText !== null && plainText !== undefined) {
-      setDialogBox(true);
+      plainText.from = userList.find(
+        (u) => u.socket_id === plainText.from
+      )?.name!;
+      if (plainText.from !== undefined) setDialogBox(true);
+      else console.log("name not found.");
     }
   }, [plainText]);
 
@@ -28,7 +36,10 @@ export default function App() {
     <DialogUserCtxProvider>
       <MessageDialogBox
         show={showMsgBox}
-        hideFunction={() => setMsgBox(false)}
+        hideFunction={() => {
+          setMsgBox(false);
+          console.log("hide");
+        }}
         myProfile={userProfile}
         socket={socket}
       />
