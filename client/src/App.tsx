@@ -19,27 +19,23 @@ export default function App() {
   const [showDialogBox, setDialogBox] = useState(false);
 
   useEffect(() => {
-    socket.connect(); // Needed for safari to autoconnect.
+    // Needed for safari to autoconnect.
+    // This is because if autoconnect is set to true, on MacOS execution
+    // it will try to register the socket events first and then connect,
+    // but since the socket hasn't yet connected, it doesn't register the events.
+    socket.connect();
   }, []);
 
   useEffect(() => {
-    if (plainText !== null && plainText !== undefined) {
-      plainText.from = userList.find(
-        (u) => u.socket_id === plainText.from
-      )?.name!;
-      if (plainText.from !== undefined) setDialogBox(true);
-      else console.log("name not found.");
-    }
+    if (plainText !== null && plainText !== undefined && !showDialogBox)
+      setDialogBox(true);
   }, [plainText]);
 
   return (
     <DialogUserCtxProvider>
       <MessageDialogBox
         show={showMsgBox}
-        hideFunction={() => {
-          setMsgBox(false);
-          console.log("hide");
-        }}
+        hideFunction={() => setMsgBox(false)}
         myProfile={userProfile}
         socket={socket}
       />

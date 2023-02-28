@@ -15,8 +15,11 @@ export default function AlertDialogBox({
   const getReceiver = () => {
     if (receivedFiles !== undefined)
       return findReceiverName(receivedFiles.from);
+
     if (receivedPlainText !== undefined)
       return findReceiverName(receivedPlainText.from);
+
+    return "Name couldn't be fetched.";
   };
 
   const getReceiverType = () => {
