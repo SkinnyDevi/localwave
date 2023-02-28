@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MessageBoxProps } from "../../interfaces/ComponentTypes";
 import { DialogUserCtx } from "../../hooks/DialogUserContext";
 import styles from "./MessageDialogBox.module.css";
@@ -12,6 +12,7 @@ export default function MessageDialogBox({
   const [showTextTab, setTextTab] = useState(false);
   const { dialogUser, setDialogUser } = useContext(DialogUserCtx);
   const [plainText, setPlainText] = useState("");
+  const [fileList, setFileList] = useState<FileList>();
 
   const hide = () => {
     hideFunction();
@@ -27,6 +28,19 @@ export default function MessageDialogBox({
     });
     hide();
   };
+
+  const checkAndAddFiles = (files: FileList) => {
+    if (files === null) return;
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].size > 3e9) throw new Error("File is bigger than 3GB.");
+    }
+
+    setFileList(files);
+  };
+
+  useEffect(() => {
+    console.log(fileList);
+  }, [fileList]);
 
   return (
     <div
@@ -58,6 +72,10 @@ export default function MessageDialogBox({
             </ul>
           </div>
           <div className={styles.send_buttons}>
+            <input
+              type={"file"}
+              onChange={(e) => checkAndAddFiles(e.target.files!)}
+            />
             <button onClick={() => console.log("add")}>Add Files</button>
             <button onClick={() => console.log("send")}>Send Files</button>
           </div>
