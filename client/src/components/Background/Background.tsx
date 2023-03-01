@@ -7,9 +7,7 @@ export default function Background({ hasUsers }: BackgroundProps) {
   const [timer, setTimerComplete] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setTimerComplete(true);
-    }, 100);
+    setTimeout(() => setTimerComplete(true), 100);
   }, []);
 
   useEffect(() => {

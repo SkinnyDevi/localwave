@@ -9,7 +9,12 @@ import CommonUtils from "./utils.js";
 dotenv.config();
 
 const app = express();
-const USE_IP = true;
+const USE_IP = true; // Change between your local IP and localhost.
+
+// Output 'nets' to console first to see your available interfaces.
+// From there, choose your most suitable interfaces.
+// Ethernet - standard cabled internet connection interface.
+// en0 - Unix based system's Wifi interface.
 const nets = CommonUtils.networks();
 const IP = nets["Ethernet"] || nets["en0"];
 

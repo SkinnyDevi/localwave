@@ -2,6 +2,15 @@ import { AlertBoxProps } from "../../interfaces/ComponentTypes";
 import CommonUtils from "../../utils";
 import styles from "./MessageDialogBox.module.css";
 
+/**
+ * Alert dialog used to display the information received from the socket.
+ *
+ * @param show - Trigger the show or hide animation.
+ * @param hideFunction - Function passed down to close the dialog.
+ * @param receivedPlainText - The `MessageData` received from the socket.
+ * @param receivedFiles - The `FileDropData` received from the socket.
+ * @param userList - The current users available in the room.
+ */
 export default function AlertDialogBox({
   show,
   hideFunction,

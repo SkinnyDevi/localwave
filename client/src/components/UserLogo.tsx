@@ -1,6 +1,6 @@
 import { UserLogoProps } from "../interfaces/ComponentTypes";
 
-export default function WifiLogo({ type }: UserLogoProps) {
+export default function UserLogo({ type }: UserLogoProps) {
   switch (type) {
     case "removed":
       return (

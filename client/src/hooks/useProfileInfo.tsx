@@ -8,6 +8,12 @@ import {
   UserData,
 } from "../interfaces/SocketDataTypes";
 
+/**
+ * Custom hook created to interact with the `Socket` instance passed.
+ *
+ * @param socket - The user's connected socket instance.
+ * @returns The user's profile, connected user list, connection status, plain text transferred messages, `FileDrop` transferred files and a clear file function.
+ */
 export default function useProfileInfo(
   socket: Socket
 ): [UserData, UserData[], boolean, MessageData, FileDropData, Function] {

@@ -12,7 +12,13 @@ import {
 } from "../interfaces/SocketDataTypes.js";
 import SocketBase from "../interfaces/SocketBase.js";
 
-class UserSocket extends SocketBase {
+/**
+ * Used for user information and data transfers between them.
+ * Handles plain text and file transfers.
+ *
+ * @default path - '/users'
+ */
+export default class UserSocket extends SocketBase {
   private readonly nameGeneratorConfig: Config = {
     dictionaries: [languages, names],
     separator: "_",
@@ -20,7 +26,6 @@ class UserSocket extends SocketBase {
 
   registerHandlers() {
     super.registerHandlers();
-    this.handleUserList();
     this.handlePlainText();
     this.handleFileDrop();
   }
@@ -33,12 +38,9 @@ class UserSocket extends SocketBase {
     });
   }
 
-  handleUserList() {
-    this.socket.on("list", () => {
-      this.users.forEach((u: UserData) => console.log(u.socket_id, u.name));
-    });
-  }
-
+  /**
+   * Handler used to receive and send plain text messages.
+   */
   handlePlainText() {
     this.socket.on("sendPlainText", (msg: MessageData) => {
       this.mainSocket
@@ -48,6 +50,9 @@ class UserSocket extends SocketBase {
     });
   }
 
+  /**
+   * Handler used to receive and send file objects.
+   */
   handleFileDrop() {
     this.socket.on("filedrop-send", (files: FileDropData) => {
       this.mainSocket
@@ -72,12 +77,14 @@ class UserSocket extends SocketBase {
     console.log("[+] Connected users: ", this.users.length);
   }
 
-  handlePing() {
-    this.socket.on("ping", () => {
-      this.socket.emit("pong");
-    });
-  }
-
+  /**
+   * Converts Hex colour strings to 'rgb' CSS strings.
+   *
+   * @param hex - Hex colour string.
+   * @returns CSS 'rgb' string conversion.
+   *
+   * @private
+   */
   private hexToRGB(hex: string): string {
     var r = parseInt(hex.slice(1, 3), 16),
       g = parseInt(hex.slice(3, 5), 16),
@@ -86,6 +93,13 @@ class UserSocket extends SocketBase {
     return `rgb(${r}, ${g}, ${b})`;
   }
 
+  /**
+   * Generates a random CSS linear gradient string.
+   *
+   * @returns A CSS gradient string.
+   *
+   * @private
+   */
   private randomGradient(): string {
     let randomHex2: string =
       "#" + Math.floor(Math.random() * 16777215).toString(16);
@@ -97,6 +111,13 @@ class UserSocket extends SocketBase {
     )} 0%, ${this.hexToRGB(randomHex2)} 100%)`;
   }
 
+  /**
+   * Generates a user profile with random names and gradient.
+   *
+   * @returns a user profile.
+   *
+   * @private
+   */
   private generateProfile(): UserData {
     return {
       socket_id: this.socket.id,
@@ -106,6 +127,16 @@ class UserSocket extends SocketBase {
     };
   }
 
+  /**
+   * Gathers and/or send (or only send) a transfer readable list of current clients in the socket.
+   *
+   * @param gatherAndEmit - If emit directly after gathering the user list.
+   * @param emitOnly - Only a emit a selected list of clients.
+   * @param emitList - Must be passed if `emitOnly` is `true`.
+   * @returns a transfer readable list of current clients in the socket.
+   *
+   * @private
+   */
   private generatePayloadUserList(
     gatherAndEmit: boolean = false,
     emitOnly: boolean = false,
@@ -134,5 +165,3 @@ class UserSocket extends SocketBase {
     }
   }
 }
-
-export default UserSocket;

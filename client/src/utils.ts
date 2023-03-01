@@ -1,7 +1,17 @@
 import { Socket } from "socket.io-client";
 import { FileDropFile, UserData } from "./interfaces/SocketDataTypes";
 
+/**
+ * Class for common utilities.
+ */
 export default class CommonUtils {
+  /**
+   * Send a `FileDrop` to a user list through SocketIO, preserving it's metadata.
+   *
+   * @param socket - The user's `Socket` instance.
+   * @param receiver - The `UserData` of the user to receive the files.
+   * @param files - The `FileList` object from an HTML input.
+   */
   static emitFileDrop(socket: Socket, receiver: UserData, files: FileList) {
     const filedropFiles: FileDropFile[] = [];
 
@@ -24,6 +34,12 @@ export default class CommonUtils {
     });
   }
 
+  /**
+   * Parses a received `FileDrop` to a reconstructed file list.
+   *
+   * @param filedrop - List of `FileDrop` files received.
+   * @returns Parsed `File` list.
+   */
   static parseFileDrop(filedrop: FileDropFile[]): File[] {
     const files: File[] = [];
 
@@ -39,6 +55,12 @@ export default class CommonUtils {
     return files;
   }
 
+  /**
+   * Gets the socket url (IP) from the window's URL.
+   * It then checks if the passed path is a valid IP.
+   *
+   * @returns The socket's url to connect to or non-URL string, resulting in a faulty socket connection.
+   */
   static getSocketUrl() {
     const trigger = window.location.href.split("/");
     const socketSrc = trigger[trigger.length - 1];
@@ -47,6 +69,12 @@ export default class CommonUtils {
     return regexp.test(socketSrc) ? socketSrc : "notconnected";
   }
 
+  /**
+   * Checks the url obtained from `getSocketUrl` and checks if valid.
+   *
+   * @param url - Optional, already processed URL (made to not re-run `getSocketUrl`)
+   * @returns A boolean of URL validity.
+   */
   static checkValidSockerUrl(url?: string) {
     const test = url || this.getSocketUrl();
     return !(test === "notconnected");

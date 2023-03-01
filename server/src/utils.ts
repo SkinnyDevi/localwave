@@ -1,9 +1,22 @@
 import { networkInterfaces } from "os";
 
+type LocalNetworks = {
+  [key: string]: string;
+};
+
+/**
+ * Class for common utilities.
+ */
 export default class CommonUtils {
   private static readonly nets = networkInterfaces();
 
-  static networks(): Object {
+  /**
+   * Returns an object with your connected network IPv4 interfaces.
+   * Used to get your local machine's IP for the server host.
+   *
+   * @returns `LocalNetworks` object with respective interfaces.
+   */
+  static networks(): LocalNetworks {
     const results = {};
 
     for (let n of Object.keys(this.nets)) {

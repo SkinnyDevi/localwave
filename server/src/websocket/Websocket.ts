@@ -7,7 +7,10 @@ const WEBSOCKET_CORS = {
   methods: ["GET", "POST"],
 };
 
-class Websocket extends Server {
+/**
+ * Class used to instantiate the `SocketIO` connections.
+ */
+export default class Websocket extends Server {
   private static io: Websocket;
 
   constructor(httpServer: HttpServer) {
@@ -17,6 +20,12 @@ class Websocket extends Server {
     });
   }
 
+  /**
+   * Gets the current instance available. If none, creates it.
+   *
+   * @param httpServer - Any specified server to use for the `SocketIO` connections.
+   * @returns A `Websocket` instance.
+   */
   public static getInstance(httpServer?: HttpServer): Websocket {
     if (!Websocket.io) {
       Websocket.io = new Websocket(httpServer);
@@ -25,6 +34,11 @@ class Websocket extends Server {
     return Websocket.io;
   }
 
+  /**
+   * Initialize any sockets extended from the `Websocket` class.
+   *
+   * @param socketHandlers - List of sockets to initialize.
+   */
   public initializeHandlers(socketHandlers: SocketBase[]) {
     for (let sh of socketHandlers) {
       Websocket.io
@@ -33,5 +47,3 @@ class Websocket extends Server {
     }
   }
 }
-
-export default Websocket;
