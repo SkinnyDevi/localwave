@@ -38,4 +38,17 @@ export default class CommonUtils {
 
     return files;
   }
+
+  static getSocketUrl() {
+    const trigger = window.location.href.split("/");
+    const socketSrc = trigger[trigger.length - 1];
+    const regexp = new RegExp("^(?:[0-9]{1,3}.){3}[0-9]{1,3}:[0-9]{1,4}$");
+
+    return regexp.test(socketSrc) ? socketSrc : "notconnected";
+  }
+
+  static checkValidSockerUrl(url?: string) {
+    const test = url || this.getSocketUrl();
+    return !(test === "notconnected");
+  }
 }

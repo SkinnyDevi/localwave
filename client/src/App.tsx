@@ -10,8 +10,12 @@ import UserList from "./components/UserProfile/UserList";
 import { DialogUserCtxProvider } from "./hooks/DialogUserContext";
 import AlertDialogBox from "./components/MessageDialogBox/AlertDialogBox";
 import styles from "./App.module.css";
+import CommonUtils from "./utils";
 
-const socket = io("http://192.168.1.177:3500/users", { autoConnect: false }); // Needed for safari to autoconnect.
+const socketUrl = CommonUtils.getSocketUrl();
+const socket = io(`http://${socketUrl}/users`, {
+  autoConnect: false,
+}); // Needed for safari to autoconnect.
 
 export default function App() {
   const [userProfile, userList, , plainText, fileList, clearFileList] =
@@ -24,7 +28,7 @@ export default function App() {
     // This is because if autoconnect is set to true, on MacOS execution
     // it will try to register the socket events first and then connect,
     // but since the socket hasn't yet connected, it doesn't register the events.
-    socket.connect();
+    if (CommonUtils.checkValidSockerUrl(socketUrl)) socket.connect();
   }, []);
 
   useEffect(() => {
@@ -64,7 +68,12 @@ export default function App() {
       </div>
       <footer className={styles.footer}>
         <p>
-          You are <span>{userProfile.name?.replace("_", " ")}</span>
+          You are{" "}
+          <span>
+            {userProfile.name !== undefined
+              ? userProfile.name?.replace("_", " ")
+              : "not connected."}
+          </span>
         </p>
         <p>Connect to the same network as other devices to transfer files.</p>
       </footer>
