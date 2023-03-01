@@ -39,21 +39,35 @@ export default function AlertDialogBox({
           <div className={styles.file_list}>
             <ul>
               {CommonUtils.parseFileDrop(receivedFiles!.files).map((f) => {
+                const fileUrl = URL.createObjectURL(f);
                 return (
                   <li key={f.name} className={styles.file}>
                     <span>{f.name}</span>
+                    <a href={fileUrl} download={f.name} id={f.name}>
+                      &nbsp;
+                    </a>
                     <a
-                      href={URL.createObjectURL(f)}
-                      download={f.name}
-                      id={f.name}
+                      href={fileUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      id={f.name + "_view"}
                     >
                       &nbsp;
                     </a>
-                    <button
-                      onClick={() => document.getElementById(f.name)?.click()}
-                    >
-                      Download
-                    </button>
+                    <div>
+                      <button
+                        onClick={() =>
+                          document.getElementById(f.name + "_view")?.click()
+                        }
+                      >
+                        View
+                      </button>
+                      <button
+                        onClick={() => document.getElementById(f.name)?.click()}
+                      >
+                        Download
+                      </button>
+                    </div>
                   </li>
                 );
               })}

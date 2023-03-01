@@ -1,4 +1,4 @@
-	.box {
+.box {
 	position: absolute;
 	width: 100vw;
 	height: 100vh;
@@ -155,7 +155,12 @@
 	display: none;
 }
 
-.file>button {
+.file>div {
+	display: flex;
+	flex-direction: row;
+}
+
+.file>div>button {
 	float: right;
 	background-color: #363b46;
 	padding: 5px;
