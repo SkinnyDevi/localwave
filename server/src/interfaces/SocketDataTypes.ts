@@ -13,6 +13,23 @@ export type MessageData = {
   to: string; // Sender Socket ID
 };
 
+type FileDropMetadata = {
+  size: number;
+  type: string;
+  name: string;
+};
+
+type FileDropFile = {
+  file: ArrayBuffer;
+  metadata: FileDropMetadata;
+};
+
+export type FileDropData = {
+  from: string; // Sender Socket ID
+  files: FileDropFile[];
+  to: string; // Sender Socket ID
+};
+
 type SocketData = UserData;
 
 export default SocketData;

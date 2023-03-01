@@ -141,6 +141,32 @@
 	display: none;
 }
 
+.file>span {
+	text-overflow: ellipsis;
+}
+
+.file>a {
+	display: none;
+}
+
+.file>button {
+	float: right;
+	background-color: #363b46;
+	padding: 5px;
+	border: 2px solid black;
+	color: #4d73d4;
+	font-weight: bold;
+	border-radius: 5px;
+	margin: 0 5px;
+	cursor: pointer;
+	margin-top: 10px;
+	font-size: 15px;
+}
+
+.file>button:hover {
+	cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
 }

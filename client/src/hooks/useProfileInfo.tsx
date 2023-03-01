@@ -1,15 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { MessageData, UserData } from "../interfaces/SocketDataTypes";
 import { Socket } from "socket.io-client";
+
+import {
+  FileDropData,
+  MessageData,
+  UserData,
+} from "../interfaces/SocketDataTypes";
 
 export default function useProfileInfo(
   socket: Socket
-): [UserData, UserData[], boolean, MessageData] {
+): [UserData, UserData[], boolean, MessageData, FileDropData] {
   const [profile, setUserProfile] = useState<UserData>(Object.create(null));
   const [userList, setUserList] = useState<UserData[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [plainText, setPlainText] = useState<MessageData>();
+  const [fileList, setFileList] = useState<FileDropData>();
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -35,6 +41,10 @@ export default function useProfileInfo(
       setPlainText(msg);
     });
 
+    socket.on("filedrop-receive", (files: FileDropData) => {
+      setFileList(files);
+    });
+
     socket.on("disconnect", () => {
       setIsConnected(false);
       setUserProfile(Object.create(null));
@@ -43,5 +53,5 @@ export default function useProfileInfo(
     });
   }, []);
 
-  return [profile, userList, isConnected, plainText!];
+  return [profile, userList, isConnected, plainText!, fileList!];
 }

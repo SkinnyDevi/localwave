@@ -5,7 +5,11 @@ import {
   names,
 } from "unique-names-generator";
 
-import { MessageData, UserData } from "../interfaces/SocketDataTypes.js";
+import {
+  FileDropData,
+  MessageData,
+  UserData,
+} from "../interfaces/SocketDataTypes.js";
 import SocketBase from "../interfaces/SocketBase.js";
 
 class UserSocket extends SocketBase {
@@ -45,9 +49,11 @@ class UserSocket extends SocketBase {
   }
 
   handleFileDrop() {
-    this.socket.on("filedrop-send", (file: File, cb: Function) => {
-      console.log(file);
-      cb();
+    this.socket.on("filedrop-send", (files: FileDropData) => {
+      this.mainSocket
+        .of(this.path)
+        .sockets.get(files.to)
+        .emit("filedrop-receive", files);
     });
   }
 

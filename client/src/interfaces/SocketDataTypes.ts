@@ -10,8 +10,20 @@ export type MessageData = {
   to: string; // Sender Socket ID
 };
 
+type FileDropMetadata = {
+  size: number;
+  type: string;
+  name: string;
+  lastModified: number;
+};
+
+export type FileDropFile = {
+  file: File | ArrayBuffer;
+  metadata: FileDropMetadata;
+};
+
 export type FileDropData = {
-  from: string;
-  files?: File[];
-  to: string;
+  from: string; // Sender Socket ID
+  files: FileDropFile[];
+  to: string; // Sender Socket ID
 };

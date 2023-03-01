@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
+
 import { MessageBoxProps } from "../../interfaces/ComponentTypes";
 import { DialogUserCtx } from "../../hooks/DialogUserContext";
+import CommonUtils from "../../utils";
 import styles from "./MessageDialogBox.module.css";
 
 export default function MessageDialogBox({
@@ -12,12 +14,19 @@ export default function MessageDialogBox({
   const [showTextTab, setTextTab] = useState(false);
   const { dialogUser, setDialogUser } = useContext(DialogUserCtx);
   const [plainText, setPlainText] = useState("");
-  const [, setFileList] = useState<FileList>();
+  const [fileList, setFileList] = useState<FileList>();
 
   const hide = () => {
     hideFunction();
     setDialogUser(Object.create(null));
     setPlainText("");
+    setFileList(undefined);
+  };
+
+  const emitFiles = () => {
+    if (fileList === undefined) return;
+    CommonUtils.emitFileDrop(socket, dialogUser, fileList);
+    hide();
   };
 
   const sendPlainText = () => {
@@ -31,9 +40,9 @@ export default function MessageDialogBox({
 
   const checkAndAddFiles = (files: FileList) => {
     if (files === null) return;
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].size > 3e9) throw new Error("File is bigger than 3GB.");
-    }
+
+    for (let f of Array.from(files))
+      if (f.size > 3e9) throw new Error(`File ${f.name} is bigger than 3GB.`);
 
     setFileList(files);
   };
@@ -63,8 +72,11 @@ export default function MessageDialogBox({
         >
           <div className={styles.file_list}>
             <ul>
-              <li>Hello</li>
-              <li>{window.screen.width}</li>
+              {fileList !== undefined
+                ? Array.from(fileList!).map((f, i) => {
+                    return <li key={i}>{f.name}</li>;
+                  })
+                : null}
             </ul>
           </div>
           <div className={styles.send_buttons}>
@@ -72,9 +84,20 @@ export default function MessageDialogBox({
               type={"file"}
               onChange={(e) => checkAndAddFiles(e.target.files!)}
               className={styles.file_input}
+              id="file-input"
+              multiple
             />
-            <button onClick={() => console.log("add")}>Add Files</button>
-            <button onClick={() => console.log("send")}>Send Files</button>
+            <button
+              onClick={() => document.getElementById("file-input")!.click()}
+            >
+              Add Files
+            </button>
+            <button
+              onClick={() => emitFiles()}
+              disabled={fileList === undefined}
+            >
+              Send Files
+            </button>
           </div>
         </div>
         <div

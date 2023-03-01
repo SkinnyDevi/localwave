@@ -7,14 +7,14 @@ import Background from "./components/Background/Background";
 import useProfileInfo from "./hooks/useProfileInfo";
 import MessageDialogBox from "./components/MessageDialogBox/MessageDialogBox";
 import UserList from "./components/UserProfile/UserList";
-import styles from "./App.module.css";
 import { DialogUserCtxProvider } from "./hooks/DialogUserContext";
 import AlertDialogBox from "./components/MessageDialogBox/AlertDialogBox";
+import styles from "./App.module.css";
 
 const socket = io("http://localhost:3500/users", { autoConnect: false }); // Needed for safari to autoconnect.
 
 export default function App() {
-  const [userProfile, userList, , plainText] = useProfileInfo(socket);
+  const [userProfile, userList, , plainText, fileList] = useProfileInfo(socket);
   const [showMsgBox, setMsgBox] = useState(false);
   const [showDialogBox, setDialogBox] = useState(false);
 
@@ -27,9 +27,14 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (plainText !== null && plainText !== undefined && !showDialogBox)
-      setDialogBox(true);
+    if (plainText === null || plainText === undefined) return;
+    if (!showDialogBox) setDialogBox(true);
   }, [plainText]);
+
+  useEffect(() => {
+    if (fileList === null || fileList === undefined) return;
+    if (!showDialogBox) setDialogBox(true);
+  }, [fileList]);
 
   return (
     <DialogUserCtxProvider>
@@ -42,6 +47,7 @@ export default function App() {
       <AlertDialogBox
         show={showDialogBox}
         receivedPlainText={plainText}
+        receivedFiles={fileList}
         hideFunction={() => setDialogBox(false)}
         userList={userList}
       />

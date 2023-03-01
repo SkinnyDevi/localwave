@@ -1,4 +1,5 @@
 import { AlertBoxProps } from "../../interfaces/ComponentTypes";
+import CommonUtils from "../../utils";
 import styles from "./MessageDialogBox.module.css";
 
 export default function AlertDialogBox({
@@ -37,8 +38,24 @@ export default function AlertDialogBox({
         <div className={styles.tab_content}>
           <div className={styles.file_list}>
             <ul>
-              {receivedFiles?.files?.map((f) => {
-                return <li>{f.name}</li>;
+              {CommonUtils.parseFileDrop(receivedFiles!.files).map((f) => {
+                return (
+                  <li key={f.name} className={styles.file}>
+                    <span>{f.name}</span>
+                    <a
+                      href={URL.createObjectURL(f)}
+                      download={f.name}
+                      id={f.name}
+                    >
+                      &nbsp;
+                    </a>
+                    <button
+                      onClick={() => document.getElementById(f.name)?.click()}
+                    >
+                      Download
+                    </button>
+                  </li>
+                );
               })}
             </ul>
           </div>
