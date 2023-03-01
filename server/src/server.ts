@@ -9,7 +9,7 @@ import CommonUtils from "./utils.js";
 dotenv.config();
 
 const app = express();
-const USE_IP = false;
+const USE_IP = true;
 const nets = CommonUtils.networks();
 const IP = nets["Ethernet"] || nets["en0"];
 

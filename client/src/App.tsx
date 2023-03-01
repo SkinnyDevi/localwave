@@ -11,7 +11,7 @@ import { DialogUserCtxProvider } from "./hooks/DialogUserContext";
 import AlertDialogBox from "./components/MessageDialogBox/AlertDialogBox";
 import styles from "./App.module.css";
 
-const socket = io("http://localhost:3500/users", { autoConnect: false }); // Needed for safari to autoconnect.
+const socket = io("http://192.168.1.177:3500/users", { autoConnect: false }); // Needed for safari to autoconnect.
 
 export default function App() {
   const [userProfile, userList, , plainText, fileList] = useProfileInfo(socket);

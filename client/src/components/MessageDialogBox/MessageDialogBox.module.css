@@ -141,6 +141,12 @@
 	display: none;
 }
 
+.file {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
 .file>span {
 	text-overflow: ellipsis;
 }
@@ -161,6 +167,9 @@
 	cursor: pointer;
 	margin-top: 10px;
 	font-size: 15px;
+
+	transform: translateY(-3px);
+	-webkit-transform: translateY(-3px);
 }
 
 .file>button:hover {
