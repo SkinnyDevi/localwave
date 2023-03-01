@@ -10,12 +10,14 @@ import {
 
 export default function useProfileInfo(
   socket: Socket
-): [UserData, UserData[], boolean, MessageData, FileDropData] {
+): [UserData, UserData[], boolean, MessageData, FileDropData, Function] {
   const [profile, setUserProfile] = useState<UserData>(Object.create(null));
   const [userList, setUserList] = useState<UserData[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [plainText, setPlainText] = useState<MessageData>();
   const [fileList, setFileList] = useState<FileDropData>();
+
+  const clearFileList = () => setFileList(undefined);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -53,5 +55,5 @@ export default function useProfileInfo(
     });
   }, []);
 
-  return [profile, userList, isConnected, plainText!, fileList!];
+  return [profile, userList, isConnected, plainText!, fileList!, clearFileList];
 }

@@ -14,7 +14,8 @@ import styles from "./App.module.css";
 const socket = io("http://192.168.1.177:3500/users", { autoConnect: false }); // Needed for safari to autoconnect.
 
 export default function App() {
-  const [userProfile, userList, , plainText, fileList] = useProfileInfo(socket);
+  const [userProfile, userList, , plainText, fileList, clearFileList] =
+    useProfileInfo(socket);
   const [showMsgBox, setMsgBox] = useState(false);
   const [showDialogBox, setDialogBox] = useState(false);
 
@@ -48,7 +49,10 @@ export default function App() {
         show={showDialogBox}
         receivedPlainText={plainText}
         receivedFiles={fileList}
-        hideFunction={() => setDialogBox(false)}
+        hideFunction={() => {
+          setDialogBox(false);
+          clearFileList();
+        }}
         userList={userList}
       />
       <Background hasUsers={userList.length > 0} />
