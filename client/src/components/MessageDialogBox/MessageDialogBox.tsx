@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { MessageBoxProps } from "../../interfaces/ComponentTypes";
 import { DialogUserCtx } from "../../hooks/DialogUserContext";
 import styles from "./MessageDialogBox.module.css";
@@ -12,7 +12,7 @@ export default function MessageDialogBox({
   const [showTextTab, setTextTab] = useState(false);
   const { dialogUser, setDialogUser } = useContext(DialogUserCtx);
   const [plainText, setPlainText] = useState("");
-  const [fileList, setFileList] = useState<FileList>();
+  const [, setFileList] = useState<FileList>();
 
   const hide = () => {
     hideFunction();
@@ -37,10 +37,6 @@ export default function MessageDialogBox({
 
     setFileList(files);
   };
-
-  useEffect(() => {
-    console.log(fileList);
-  }, [fileList]);
 
   return (
     <div
@@ -75,6 +71,7 @@ export default function MessageDialogBox({
             <input
               type={"file"}
               onChange={(e) => checkAndAddFiles(e.target.files!)}
+              className={styles.file_input}
             />
             <button onClick={() => console.log("add")}>Add Files</button>
             <button onClick={() => console.log("send")}>Send Files</button>

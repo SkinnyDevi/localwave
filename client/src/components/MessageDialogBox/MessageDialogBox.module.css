@@ -137,6 +137,10 @@
 	padding: 5px 0 3px 10px;
 }
 
+.file_input {
+	display: none;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
 }
