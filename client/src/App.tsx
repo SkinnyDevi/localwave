@@ -33,7 +33,7 @@ export default function App() {
 
   useEffect(() => {
     if (plainText === null || plainText === undefined) return;
-    if (!showDialogBox) setDialogBox(true);
+    if (!showDialogBox && Object.keys(plainText).length > 0) setDialogBox(true);
   }, [plainText]);
 
   useEffect(() => {
