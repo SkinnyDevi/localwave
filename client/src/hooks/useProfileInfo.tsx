@@ -40,6 +40,7 @@ export default function useProfileInfo(
     });
 
     socket.on("receivePlainText", (msg: MessageData) => {
+      setFileList(undefined);
       setPlainText(msg);
     });
 
