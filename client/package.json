@@ -2,8 +2,10 @@
   "name": "localwave-client",
   "version": "1.0.0",
   "private": true,
-	"homepage": "https://github.com/SkinnyDevi/localwave#readme",
-	"url" : "https://github.com/SkinnyDevi/localwave/issues",
+	"homepage": ".",
+	"bugs":{
+		"url" : "https://github.com/SkinnyDevi/localwave/issues"
+	},
 	"email" : "skinnydevi.dev@gmail.com",
 	"author": "SkinnyDevi Rubble <skinnydevi.dev@gmail.com> (https://github.com/SkinnyDevi/)",
 
