@@ -8,6 +8,7 @@
 	},
 	"email" : "skinnydevi.dev@gmail.com",
 	"author": "SkinnyDevi Rubble <skinnydevi.dev@gmail.com> (https://github.com/SkinnyDevi/)",
+	"bin": "dist/server.js",
 
 	"type": "module",
   "scripts": {
