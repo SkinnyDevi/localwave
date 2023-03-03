@@ -37,7 +37,7 @@ export default class Websocket extends Server {
   /**
    * Initialize any sockets extended from the `Websocket` class.
    *
-   * @param socketHandlers - List of sockets to initialize.
+   * @param socketHandlers - List of sockets to initialize and register.
    */
   public initializeHandlers(socketHandlers: SocketBase[]) {
     for (let sh of socketHandlers) {
