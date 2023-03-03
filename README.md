@@ -8,15 +8,34 @@
 A custom web app made to transfer files between users in the same network.
 
 - [Main Purpose](#main-purpose)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Developer Notes](#developer-notes)
-- [Installation](#installation)
 
 ## Main Purpose
 To make easier to transfer files between devices in the same local network. Other web apps do the same job using WebRTC, but since
 I couldn't get them to work between different OS (iPhone and Windows 10), I made my own.
 
 Mine works with websockets, so it can stablish connection with any device that supports running the code using websockets.
+
+## Installation
+As of now, there is no official executable to launch the app. Since the app works with server and web, I am currently working on an
+executable format to launch both server and web app as an application executable for multiple OS.
+
+For now, if you wish to use it:
+```cmd
+git clone https://github.com/SkinnyDevi/localwave
+
+cd ./localwave
+cd ./server
+
+npm i 
+npm start
+
+cd ../client
+npm i
+npm start
+```
 
 ## Usage
 Once started the web client, you will be greeted at the root URL. To access the server and connect to it, you must specify as follows:
@@ -53,7 +72,6 @@ You now can write or paste any desired text to send with a *2000 character limit
 ### Receiving plain text
 You will see a dialog box pop up, displaying a text box with the text message sent.
 
-
 ## Developer Notes
 The base of the project is composed on a server and a client, both working with ```SocketIO``` and TypeScript. The frontend has been developed using React TS, and the server is using Express TS.
 
@@ -88,23 +106,3 @@ The server host has been setup in a way to automatically gather your device netw
 As a similar concept, in the frontend, you can use the ```useProfileHook``` as a reference to developing the React Hook used to register the socket events in the frontend and receive information dynamically.
 
 All code is documented and explained as clear as possible.
-
-
-## Installation
-As of now, there is no official executable to launch the app. Since the app works with server and web, I am currently working on an
-executable format to launch both server and web app as an application executable for multiple OS.
-
-For now, if you wish to use it:
-```cmd
-git clone https://github.com/SkinnyDevi/localwave
-
-cd ./localwave
-cd ./server
-
-npm i 
-npm start
-
-cd ../client
-npm i
-npm start
-```
