@@ -7,7 +7,9 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`npm list -g json`) DO (
 	SET npmjson=%%F
 )
 
-echo.%npmjson% | findstr /I "json">Nul && not ( 
+echo.%npmjson% | findstr /I "json">Nul && (
+	@REM FOUND
+) || (
 	echo [DEPENDENCY/INSTALLER] Installing json package globally...
   call npm i -g json
 )
