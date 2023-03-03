@@ -26,4 +26,8 @@ export default class CommonUtils {
 
     return results;
   }
+
+  static testForProduction() {
+    return process.env.NODE_ENV.split(" ")[0] === "production";
+  }
 }

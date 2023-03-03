@@ -14,7 +14,9 @@
   "scripts": {
     "build": "rimraf dist && npx tsc",
     "start": "NODE_ENV=production node dist/server.js",
+    "start:win": "set NODE_ENV=production && node dist/server.js",
     "predev": "npm run build",
+    "dev:win": "concurrently \"npx tsc -w\" \"set NODE_ENV=development && nodemon dist/server.js\"",
     "dev": "concurrently \"npx tsc -w\" \"NODE_ENV=development nodemon dist/server.js\""
   },
   "repository": {

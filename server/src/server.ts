@@ -23,7 +23,7 @@ const IP = nets["Ethernet"] || nets["en0"];
 const PORT = process.env.SERVER_PORT || 3500;
 const HOST = USE_IP ? IP : "localhost";
 
-if (process.env.NODE_ENV === "production") {
+if (CommonUtils.testForProduction()) {
   app.use(express.static(path.join(__dirname, "client")));
   app.get("/*", (_, res: Response) =>
     res.sendFile(path.join(__dirname, "client", "index.html"))

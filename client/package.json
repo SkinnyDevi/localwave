@@ -11,7 +11,8 @@
 
 	"scripts": {
     "start": "react-scripts start",
-    "build": "BUILD_PATH='../server/dist/client' react-scripts build",
+    "build:unix": "BUILD_PATH='../server/dist/client' react-scripts build",
+    "build:win": "set BUILD_PATH=../server/dist/client&& react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
