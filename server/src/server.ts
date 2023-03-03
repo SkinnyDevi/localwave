@@ -2,15 +2,16 @@ import express, { Response } from "express";
 import * as dotenv from "dotenv";
 import { createServer } from "http";
 import path from "path";
-import { fileURLToPath } from "url";
 
 import Websocket from "./websocket/Websocket.js";
 import UserSocket from "./websocket/UserSocket.js";
-import CommonUtils from "./utils.js";
+import CommonUtils, { CustomProcess } from "./utils.js";
 
 dotenv.config();
+const customProcess: CustomProcess = process;
+if (customProcess.pkg) process.env.NODE_ENV = "production";
+const dirname = path.dirname(require.main.filename);
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const USE_IP = true; // Change between your local IP and localhost.
 
@@ -24,9 +25,9 @@ const PORT = process.env.SERVER_PORT || 3500;
 const HOST = USE_IP ? IP : "localhost";
 
 if (CommonUtils.testForProduction()) {
-  app.use(express.static(path.join(__dirname, "client")));
+  app.use(express.static(path.join(dirname, "client")));
   app.get("/*", (_, res: Response) =>
-    res.sendFile(path.join(__dirname, "client", "index.html"))
+    res.sendFile(path.join(dirname, "client", "index.html"))
   );
 } else {
   app.get("/", (_, res: Response) => res.send("Express is online."));

@@ -4,6 +4,10 @@ type LocalNetworks = {
   [key: string]: string;
 };
 
+export interface CustomProcess extends NodeJS.Process {
+  pkg?: Object;
+}
+
 /**
  * Class for common utilities.
  */

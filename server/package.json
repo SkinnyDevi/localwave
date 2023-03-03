@@ -3,16 +3,27 @@
   "version": "1.0.0",
   "description": "Server for Local Wave.",
   "main": "server.js",
-	"bugs": {
-		"url" : "https://github.com/SkinnyDevi/localwave/issues"
-	},
-	"email" : "skinnydevi.dev@gmail.com",
-	"author": "SkinnyDevi Rubble <skinnydevi.dev@gmail.com> (https://github.com/SkinnyDevi/)",
-	"bin": "dist/server.js",
-
-	"type": "module",
+  "bugs": {
+    "url": "https://github.com/SkinnyDevi/localwave/issues"
+  },
+  "email": "skinnydevi.dev@gmail.com",
+  "author": "SkinnyDevi Rubble <skinnydevi.dev@gmail.com> (https://github.com/SkinnyDevi/)",
+  "type": "module",
+  "bin": "dist/server.js",
+  "pkg": {
+    "targets": [
+      "latest-win",
+      "latest-linux",
+      "latest-mac"
+    ],
+    "assets": [
+      "dist/**/*"
+    ],
+    "output": "/build"
+  },
   "scripts": {
     "build": "rimraf dist && npx tsc",
+    "compile": "pkg --output ./build/localwave ./package.json",
     "start": "NODE_ENV=production node dist/server.js",
     "start:win": "set NODE_ENV=production && node dist/server.js",
     "predev": "npm run build",
@@ -36,6 +47,7 @@
     "@types/socket.io-parser": "^3.0.0",
     "@types/uuid": "^9.0.1",
     "concurrently": "^7.6.0",
+    "rcedit": "^3.0.1",
     "typescript": "^4.9.5"
   }
 }
