@@ -19,22 +19,23 @@ I couldn't get them to work between different OS (iPhone and Windows 10), I made
 Mine works with websockets, so it can stablish connection with any device that supports running the code using websockets.
 
 ## Installation
-As of now, there is no official executable to launch the app. Since the app works with server and web, I am currently working on an
-executable format to launch both server and web app as an application executable for multiple OS.
+Currently, there is a very experimental version as an executable for Windows, Mac and Linux (not tested). You can download the app and run it on your system through the [releases page](https://github.com/SkinnyDevi/localwave/releases).
 
-For now, if you wish to use it:
-```cmd
+The Windows distribution includes a ```start-win.vbs``` script to run the app hidden without a console window. If at any point you wish to stop the app, you can go to ***Task Manager -> Node.js JavaScript Runtime -> Details***, make sure the name matches with the app name, and terminate it.
+
+If you wish to run it from the source code, in a development state:
+```dockerfile
 git clone https://github.com/SkinnyDevi/localwave
 
 cd ./localwave
 cd ./server
 
 npm i 
-npm start
+npm build # or npm build:win
 
 cd ../client
 npm i
-npm start
+npm start  # or npm start:win
 ```
 
 ## Usage
@@ -106,3 +107,8 @@ The server host has been setup in a way to automatically gather your device netw
 As a similar concept, in the frontend, you can use the ```useProfileHook``` as a reference to developing the React Hook used to register the socket events in the frontend and receive information dynamically.
 
 All code is documented and explained as clear as possible.
+
+### Building from source
+In the folder ```compiler utils```, I have added a few scripts that will aid me and you in compiling an executable with the source code. Each file will be named following it's respective OS compatiblity. **Make sure you run the script from the ```compiler utils``` folder.**
+
+Sadly, I was not able to attach multiple icons to the windows executable. If anyone does have a workaround that doesn't corrupt the ```pkg``` compilation, I would love to hear it out.
