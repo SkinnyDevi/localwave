@@ -9,6 +9,7 @@ A custom web app made to transfer files between users in the same network.
 
 - [Main Purpose](#main-purpose)
 - [Installation](#installation)
+	- [Troubleshooting](#troubleshooting)
 - [Usage](#usage)
 - [Developer Notes](#developer-notes)
 
@@ -20,8 +21,6 @@ Mine works with websockets, so it can stablish connection with any device that s
 
 ## Installation
 Currently, there is a very experimental version as an executable for Windows, Mac and Linux (not tested). You can download the app and run it on your system through the [releases page](https://github.com/SkinnyDevi/localwave/releases).
-
-The Windows distribution includes a ```start-win.vbs``` script to run the app hidden without a console window. If at any point you wish to stop the app, you can go to ***Task Manager -> Node.js JavaScript Runtime -> Details***, make sure the name matches with the app name, and terminate it.
 
 If you wish to run it from the source code, in a development state:
 ```dockerfile
@@ -37,6 +36,11 @@ cd ../client
 npm i
 npm start  # or npm start:win
 ```
+
+### Troubleshooting
+The **Windows** distribution includes a ```start-win.vbs``` script to run the app hidden without a console window. If at any point you wish to stop the app, you can go to ***Task Manager -> Node.js JavaScript Runtime -> Details***, make sure the name matches with the app name, and terminate it.
+
+For **MacOS**, if the file appears as a plain text file, open a Terminal window and type chmod +x file_location_here, where the file location is the location where you currently have your file (Downloads folder, etc). With that, you should be able to open it as normal.
 
 ## Usage
 Once started the web client, you will be greeted at the root URL. To access the server and connect to it, you must specify as follows:
