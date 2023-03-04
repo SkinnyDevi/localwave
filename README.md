@@ -50,8 +50,8 @@ Once started the web client, you will be greeted at the root URL. To access the 
 Example: 
 - Device private IP: ```192.168.1.85```
 - Server host: ```192.168.1.85:3500```
-- Client connection path: ```http://localhost:3000/192.168.1.85:3500```
-- Other devices in network: ```http://192.168.1.85:3000/192.168.1.85:3500```
+- Client connection path: ```http://localhost:3500/192.168.1.85:3500```
+- Other devices in network: ```http://192.168.1.85:3500/192.168.1.85:3500```
 
 Not tested: use a hostname on Linux/MacOs systems to re-route the IP address to a hostname.
 
