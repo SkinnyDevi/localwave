@@ -40,7 +40,7 @@ npm start  # or npm start:win
 ### Troubleshooting
 The **Windows** distribution includes a ```start-win.vbs``` script to run the app hidden without a console window. If at any point you wish to stop the app, you can go to ***Task Manager -> Node.js JavaScript Runtime -> Details***, make sure the name matches with the app name, and terminate it.
 
-For **MacOS**, if the file appears as a plain text file, open a Terminal window and type chmod +x file_location_here, where the file location is the location where you currently have your file (Downloads folder, etc). With that, you should be able to open it as normal.
+For **MacOS**, if the file appears as a plain text file, open a Terminal window and type ```chmod +x file_location_here```, where the file location is the location where you currently have your file (Downloads folder, etc). With that, you should be able to open it as normal.
 
 ## Usage
 Once started the web client, you will be greeted at the root URL. To access the server and connect to it, you must specify as follows:
