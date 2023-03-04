@@ -7,10 +7,12 @@ import Websocket from "./websocket/Websocket.js";
 import UserSocket from "./websocket/UserSocket.js";
 import CommonUtils, { CustomProcess } from "./utils.js";
 
+// Setup for production.
 dotenv.config();
 const customProcess: CustomProcess = process;
 if (customProcess.pkg) process.env.NODE_ENV = "production";
-const dirname = path.dirname(require.main.filename);
+const IS_PROD = CommonUtils.testForProduction();
+const dirname = IS_PROD ? path.dirname(require.main.filename) : "";
 
 const app = express();
 const USE_IP = true; // Change between your local IP and localhost.
@@ -20,11 +22,16 @@ const USE_IP = true; // Change between your local IP and localhost.
 // Ethernet - standard cabled internet connection interface.
 // en0 - Unix based system's Wifi interface.
 const nets = CommonUtils.networks();
-const IP = nets["Ethernet"] || nets["en0"];
+const IP =
+  nets["Ethernet"] ||
+  nets["Wi-Fi"] ||
+  nets["en0"] ||
+  nets["en1"] ||
+  nets["en2"];
 const PORT = process.env.SERVER_PORT || 3500;
 const HOST = USE_IP ? IP : "localhost";
 
-if (CommonUtils.testForProduction()) {
+if (IS_PROD) {
   app.use(express.static(path.join(dirname, "client")));
   app.get("/*", (_, res: Response) =>
     res.sendFile(path.join(dirname, "client", "index.html"))
