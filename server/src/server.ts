@@ -29,13 +29,18 @@ const IP =
   nets["en1"] ||
   nets["en2"];
 const PORT = process.env.SERVER_PORT || 3500;
-const HOST = USE_IP ? IP : "localhost";
+const DOMAIN = `${USE_IP ? IP : "localhost"}:${PORT}`;
 
 if (IS_PROD) {
-  app.use(express.static(path.join(dirname, "client")));
-  app.get("/*", (_, res: Response) =>
+  app.get("/", (_, res: Response) => {
+    res.redirect(`/${DOMAIN}`);
+  });
+
+  app.get(`/${DOMAIN}`, (_, res: Response) =>
     res.sendFile(path.join(dirname, "client", "index.html"))
   );
+
+  app.use(express.static(path.join(dirname, "client")));
 } else {
   app.get("/", (_, res: Response) => res.send("Express is online."));
 }
@@ -46,5 +51,5 @@ const io = Websocket.getInstance(httpServer);
 io.initializeHandlers([new UserSocket("/users", io)]);
 
 httpServer.listen(PORT, () => {
-  console.log(`[server]: Server is running on http://${HOST}:${PORT}`);
+  console.log(`[server]: Server is running on http://${DOMAIN}`);
 });

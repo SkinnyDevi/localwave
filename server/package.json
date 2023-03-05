@@ -1,6 +1,6 @@
 {
   "name": "localwave-server",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Server for Local Wave.",
   "main": "server.js",
   "bugs": {
