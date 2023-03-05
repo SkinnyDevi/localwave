@@ -15,8 +15,7 @@ echo.%npmjson% | findstr /I "json">Nul && (
 )
 
 echo [COMPILER] Deleting old executables...
-cd %mypath%\..\server
-rmdir /s build
+call node icon-utility.js -d
 
 echo [COMPILER] Starting server compiling process...
 cd %mypath%\..\server
@@ -58,5 +57,8 @@ copy "..\..\compiler utils\start-win.vbs" localwave-win-dist
 mkdir localwave-macos-dist\notifier
 move localwave-macos localwave-macos-dist\localwave-macos
 copy ..\node_modules\node-notifier\vendor\mac.noindex\terminal-notifier.app\Contents\MacOS\terminal-notifier localwave-macos-dist\notifier\
+
+cd %mypath%
+call node icon-utility.js -w
 
 echo [COMPILER] Finished executable compilation.
