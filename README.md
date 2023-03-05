@@ -37,6 +37,12 @@ npm i
 npm start  # or npm start:win
 ```
 
+If you wish to change the port that the app starts on, you must start the app running the commands:
+- Windows: ```set SERVER_PORT=XXXX&& localwave-win.exe```
+- MacOS & Linux: ```SERVER_PORT=XXXX localwave-macos/linux```
+
+Where 'XXXX' is a 4 digit number.
+
 ### Troubleshooting
 The **Windows** distribution includes a ```start-win.vbs``` script to run the app hidden without a console window. If at any point you wish to stop the app, you can go to ***Task Manager -> Node.js JavaScript Runtime -> Details***, make sure the name matches with the app name, and terminate it.
 
@@ -50,14 +56,8 @@ Once started the web client, you will be greeted at the root URL. To access the 
 Example: 
 - Device private IP: ```192.168.1.85```
 - Server host: ```192.168.1.85:3500```
-- Client connection path: ```http://localhost:3500/192.168.1.85:3500```
-- Other devices in network: ```http://192.168.1.85:3500/192.168.1.85:3500```
-
-Not tested: use a hostname on Linux/MacOs systems to re-route the IP address to a hostname.
-
-Example: re-route ```http://192.168.1.85:3000``` to ```http://localwave.local```
-
-***Only an IP is valid as an access route to a server.***
+- Client connection path: ```http://localhost:3500```
+- Other devices in network: ```http://192.168.1.85:3500```
 
 ### Sending files between users
 Click on the desired user and make sure you have selected the *Files* tab (selected by default.) 
