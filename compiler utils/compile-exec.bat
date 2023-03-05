@@ -14,6 +14,10 @@ echo.%npmjson% | findstr /I "json">Nul && (
   call npm i -g json
 )
 
+echo [COMPILER] Deleting old executables...
+cd %mypath%\..\server
+rmdir /s build
+
 echo [COMPILER] Starting server compiling process...
 cd %mypath%\..\server
 
@@ -35,10 +39,24 @@ echo [COMPILER/CLIENT] Client finished building, starting executable compilation
 cd %mypath%\..\server
 
 echo [COMPILER/EXEC] Starting executable compilation...
+mkdir build
 call npm run compile
 
 echo [COMPILER/EXEC] Finished compiling, reverting config files...
 call json -I -f tsconfig.json -e "this.compilerOptions.module=\"NodeNext\""
 call json -I -f package.json -e "this.type=\"module\""
+
+echo [COMPILER] Organising distributions...
+cd %mypath%\..\server\build
+
+mkdir localwave-win-dist\notifier
+move localwave-win.exe localwave-win-dist\localwave-win.exe
+copy ..\node_modules\node-notifier\vendor\notifu\ localwave-win-dist\notifier\
+copy ..\node_modules\node-notifier\vendor\snoreToast\ localwave-win-dist\notifier\
+copy "..\..\compiler utils\start-win.vbs" localwave-win-dist
+
+mkdir localwave-macos-dist\notifier
+move localwave-macos localwave-macos-dist\localwave-macos
+copy ..\node_modules\node-notifier\vendor\mac.noindex\terminal-notifier.app\Contents\MacOS\terminal-notifier localwave-macos-dist\notifier\
 
 echo [COMPILER] Finished executable compilation.

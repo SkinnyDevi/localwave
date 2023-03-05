@@ -1,4 +1,5 @@
 import { networkInterfaces } from "os";
+import { notify } from "node-notifier";
 
 type LocalNetworks = {
   [key: string]: string;
@@ -33,5 +34,18 @@ export default class CommonUtils {
 
   static testForProduction() {
     return process.env.NODE_ENV.split(" ")[0] === "production";
+  }
+
+  static notifyServerAddress(domain: string) {
+    const notification = {
+      title: "Local Wave",
+      message: "App started at: http://" + domain,
+    };
+
+    notify(notification, (err) => {
+      if (err !== null) {
+        console.error("[server] Could not send notification: ", err);
+      }
+    });
   }
 }

@@ -51,5 +51,6 @@ const io = Websocket.getInstance(httpServer);
 io.initializeHandlers([new UserSocket("/users", io)]);
 
 httpServer.listen(PORT, () => {
+  CommonUtils.notifyServerAddress(DOMAIN);
   console.log(`[server]: Server is running on http://${DOMAIN}`);
 });
