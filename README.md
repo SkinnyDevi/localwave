@@ -22,6 +22,16 @@ Mine works with websockets, so it can stablish connection with any device that s
 ## Installation
 Currently, there is a very experimental version as an executable for Windows, Mac and Linux (not tested). You can download the app and run it on your system through the [releases page](https://github.com/SkinnyDevi/localwave/releases).
 
+For **MacOS users** (first time opening the app):
+If you're running the app for the first time, you must open a terminal window and go to the directory where the app is located. Once there, we are going to run the ```before-first-use.sh``` script that makes the required files executable for the app to open.
+
+To do this:
+- Open a terminal window.
+- Type ```chmod +x before-first-use.sh```
+- Run the script ```./before-first-use.sh```
+
+Once followed the steps and ran the script, you should be able to open the app as normal.
+
 If you wish to run it from the source code, in a development state:
 ```dockerfile
 git clone https://github.com/SkinnyDevi/localwave
