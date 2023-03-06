@@ -17,6 +17,15 @@
 	-webkit-animation: disc-loader 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
 
+@media screen and (min-height: 600px) and (max-height:900px) {
+	.logo_default {
+		width: 35px;
+		height: 35px;
+		transform: translate(-2.5px, -3px);
+		-webkit-transform: translate(-2.5px, -3px);
+	}
+}
+
 @keyframes disc-loader {
 	from {
 		transform: rotate(0deg);

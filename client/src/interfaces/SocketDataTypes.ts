@@ -5,6 +5,7 @@ export type UserData = {
   socket_id: string | null;
   name: string | null;
   gradient: string;
+  logo_type?: "removed" | "failed" | "success" | "loader";
 };
 
 /**
@@ -41,4 +42,5 @@ export type FileDropData = {
   from: string; // Sender Socket ID
   files: FileDropFile[];
   to: string; // Sender Socket ID
+  received?: boolean;
 };

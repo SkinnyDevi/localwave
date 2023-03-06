@@ -55,10 +55,18 @@ export default class UserSocket extends SocketBase {
    */
   handleFileDrop() {
     this.socket.on("filedrop-send", (files: FileDropData) => {
-      this.mainSocket
-        .of(this.path)
-        .sockets.get(files.to)
-        .emit("filedrop-receive", files);
+      const sockets = this.mainSocket.of(this.path).sockets;
+      const receiver = sockets.get(files.to);
+
+      receiver.emit("filedrop-receiving", {
+        to: files.to,
+        from: files.from,
+        files: [],
+      });
+
+      setTimeout(() => {
+        receiver.emit("filedrop-received", files);
+      }, 500);
     });
   }
 

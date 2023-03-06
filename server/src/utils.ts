@@ -1,5 +1,6 @@
 import { networkInterfaces } from "os";
 import notifier from "node-notifier";
+import NotificationCenter from "node-notifier/notifiers/notificationcenter.js";
 import path from "path";
 
 type LocalNetworks = {
@@ -48,10 +49,11 @@ export default class CommonUtils {
    * @param domain - The app url domain.
    */
   static notifyServerAddress(domain: string) {
-    const notification = {
+    const notification: NotificationCenter.Notification = {
       title: "Local Wave",
       message: "App started at: http://" + domain,
       icon: path.join(path.dirname(process.argv[0]), "\\notifier\\noticon.png"),
+      sound: this.testForProduction(),
     };
 
     notifier.notify(notification, (err) => {

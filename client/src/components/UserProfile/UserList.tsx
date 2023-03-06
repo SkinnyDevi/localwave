@@ -12,6 +12,7 @@ export default function UserList({ list, openBoxFn }: UserProfileListProps) {
               key={u.socket_id}
               user={u}
               openBoxFn={() => openBoxFn()}
+              type={u.logo_type}
             />
           );
         })

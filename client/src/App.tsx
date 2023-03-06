@@ -37,7 +37,10 @@ export default function App() {
 
   useEffect(() => {
     if (fileList === null || fileList === undefined) return;
-    if (!showDialogBox) setDialogBox(true);
+
+    if (!showDialogBox && fileList.received === true) {
+      setTimeout(() => setDialogBox(true), 250);
+    }
   }, [fileList]);
 
   return (

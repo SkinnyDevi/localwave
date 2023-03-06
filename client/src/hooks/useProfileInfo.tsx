@@ -24,6 +24,8 @@ export default function useProfileInfo(
   const [fileList, setFileList] = useState<FileDropData>();
 
   const clearFileList = () => setFileList(undefined);
+  let user_list: UserData[] = [];
+  let from: UserData = Object.create(null);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -38,6 +40,7 @@ export default function useProfileInfo(
 
     socket.on("user-list", (users: UserData[]) => {
       users = users.filter((u) => u.socket_id !== profile.socket_id);
+      user_list = users;
       setUserList(users);
     });
 
@@ -46,12 +49,24 @@ export default function useProfileInfo(
     });
 
     socket.on("receivePlainText", (msg: MessageData) => {
-      setFileList(undefined);
       setPlainText(msg);
     });
 
-    socket.on("filedrop-receive", (files: FileDropData) => {
+    socket.on("filedrop-receiving", (files: FileDropData) => {
+      from = user_list.find((u) => u.socket_id === files.from)!;
+      files.received = false;
+      from.logo_type = "loader";
       setFileList(files);
+    });
+
+    socket.on("filedrop-received", (files: FileDropData) => {
+      files.received = true;
+      from.logo_type = "success";
+      setFileList(files);
+      setTimeout(() => {
+        from.logo_type = undefined;
+        from = Object.create(null);
+      }, 1500);
     });
 
     socket.on("disconnect", () => {
