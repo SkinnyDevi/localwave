@@ -10,7 +10,7 @@ export type BackgroundProps = {
 };
 
 export type UserProfileProps = {
-  type?: string;
+  type?: "removed" | "failed" | "success" | "loader";
   user: UserData;
   openBoxFn: Function;
 };

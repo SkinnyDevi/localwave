@@ -1,5 +1,5 @@
 import { networkInterfaces } from "os";
-import { notify } from "node-notifier";
+import notifier from "node-notifier";
 import path from "path";
 
 type LocalNetworks = {
@@ -54,7 +54,7 @@ export default class CommonUtils {
       icon: path.join(path.dirname(process.argv[0]), "\\notifier\\noticon.png"),
     };
 
-    notify(notification, (err) => {
+    notifier.notify(notification, (err) => {
       if (err !== null) {
         console.error("[server] Could not send notification: ", err);
       }

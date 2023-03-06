@@ -1,0 +1,40 @@
+.logo_default {
+	transform: translateY(2px);
+	-webkit-transform: translate(0, 2px);
+	transition: all 0.5s;
+	width: 43px;
+	height: 43px;
+}
+
+.generic {
+	transform: translateY(3px);
+	-webkit-transform: translateY(3px);
+	transition: all 0.5s;
+}
+
+.loader {
+	animation: disc-loader 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+	-webkit-animation: disc-loader 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+@keyframes disc-loader {
+	from {
+		transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@-webkit-keyframes disc-loader {
+	from {
+		-webkit-transform: rotate(0deg);
+	}
+
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}

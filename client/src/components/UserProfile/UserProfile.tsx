@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UserProfileProps } from "../../interfaces/ComponentTypes";
-import UserLogo from "../UserLogo";
+import UserLogo from "../UserLogo/UserLogo";
 import styles from "./UserProfile.module.css";
 import { DialogUserCtx } from "../../hooks/DialogUserContext";
 

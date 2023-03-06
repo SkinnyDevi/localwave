@@ -28,7 +28,7 @@ const IP =
   nets["en0"] ||
   nets["en1"] ||
   nets["en2"];
-const PORT = process.env.SERVER_PORT || 3500;
+const PORT = process.env.SERVER_PORT || 3501;
 const DOMAIN = `${USE_IP ? IP : "localhost"}:${PORT}`;
 
 if (IS_PROD) {
