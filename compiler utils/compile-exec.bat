@@ -54,9 +54,12 @@ copy ..\node_modules\node-notifier\vendor\notifu\ localwave-win-dist\notifier\
 copy ..\node_modules\node-notifier\vendor\snoreToast\ localwave-win-dist\notifier\
 copy "..\..\compiler utils\start-win.vbs" localwave-win-dist
 
-mkdir localwave-macos-dist\notifier
+mkdir localwave-macos-dist\notifier\mac.noindex
 move localwave-macos localwave-macos-dist\localwave-macos
-copy ..\node_modules\node-notifier\vendor\mac.noindex\terminal-notifier.app\Contents\MacOS\terminal-notifier localwave-macos-dist\notifier\
+robocopy ..\node_modules\node-notifier\vendor\mac.noindex\terminal-notifier.app\Contents\MacOS localwave-macos-dist\notifier\mac.noindex /s
+robocopy ..\node_modules\node-notifier\vendor\mac.noindex\terminal-notifier.app\Contents localwave-macos-dist\notifier\mac.noindex Info.plist
+robocopy ..\node_modules\node-notifier\vendor\mac.noindex\terminal-notifier.app\Contents\Resources\en.lproj localwave-macos-dist\notifier\mac.noindex MainMenu.nib
+robocopy "..\..\compiler utils" localwave-macos-dist before-first-use.sh
 
 cd %mypath%
 call node icon-utility.js -w
